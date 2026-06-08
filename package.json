@@ -1,0 +1,12 @@
+{
+  "name": "prevest-app",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "weweb build",
+    "build:local": "weweb build -- name=prevest-app type=element",
+    "serve": "weweb serve"
+  },
+  "devDependencies": {
+    "@weweb/cli": "latest"
+  }
+}
