@@ -1,10 +1,8 @@
 <template>
   <section class="hero" :class="{ 'hero--dark': isDark, 'hero--light': !isDark }">
-    <!-- Atmospheric background glow -->
-    <div class="hero__bg-glow" aria-hidden="true">
-      <div class="hero__glow-orb hero__glow-orb--1" />
-      <div class="hero__glow-orb hero__glow-orb--2" />
-    </div>
+
+    <!-- Atmospheric glow — pure radial-gradient, zero hard edges -->
+    <div class="hero__glows" aria-hidden="true" />
 
     <div class="hero__inner">
 
@@ -12,25 +10,75 @@
       <div class="hero__copy">
 
         <!-- Badge -->
-        <div class="hero__badge">
+        <div class="hero__badge hero__anim" style="--ad:0ms">
           <span class="hero__badge-dot" aria-hidden="true" />
-          <span><strong>IRIS</strong> · votre agent d'aide à la décision</span>
+          <span>Simulation financière intelligente</span>
         </div>
 
         <!-- H1 -->
-        <h1 class="hero__h1">
+        <h1 class="hero__h1 hero__anim" style="--ad:90ms">
           Comparez. Simulez.<br>
-          <span class="hero__h1-orange">Investissez mieux,</span><br>
-          en toute confiance.
+          <span class="hero__h1-orange">Investissez mieux.</span>
         </h1>
 
         <!-- Subtext -->
-        <p class="hero__subtext">
+        <p class="hero__sub hero__anim" style="--ad:190ms">
           PREVEST, avec IRIS, vous aide à comparer les meilleurs produits d'épargne et d'investissement, à simuler différents scénarios et à choisir l'option la plus adaptée à vos objectifs.
         </p>
 
-        <!-- Benefits chips -->
-        <div class="hero__benefits">
+        <!-- ── CTA unique IRIS ── (remonté avant les benefits) -->
+        <div class="hero__actions hero__anim" style="--ad:290ms">
+          <button type="button" class="hero__cta-primary" @click="onCompareClick" aria-label="Commencer à comparer avec IRIS">
+            <div class="hero__iris-ring">
+              <img
+                v-if="irisAvatarUrl"
+                :src="irisAvatarUrl"
+                alt="IRIS"
+                class="hero__iris-img"
+                loading="eager"
+                referrerpolicy="no-referrer"
+              />
+              <div v-else class="hero__iris-fallback" aria-hidden="true">I</div>
+            </div>
+            <span class="hero__cta-label">Commencer à comparer avec IRIS <span class="hero__cta-arrow" aria-hidden="true">→</span></span>
+          </button>
+        </div>
+
+        <!-- ── Social proof + security ── (juste après le CTA) -->
+        <div class="hero__trust hero__anim" style="--ad:380ms">
+
+          <!-- Avatars + count -->
+          <div class="hero__proof">
+            <div class="hero__avatars" aria-label="Utilisateurs">
+              <div class="hero__av hero__av--1" aria-hidden="true">A</div>
+              <div class="hero__av hero__av--2" aria-hidden="true">M</div>
+              <div class="hero__av hero__av--3" aria-hidden="true">J</div>
+              <div class="hero__av hero__av--4" aria-hidden="true">S</div>
+              <div class="hero__av hero__av--more" aria-hidden="true">+</div>
+            </div>
+            <div class="hero__proof-text">
+              <span class="hero__proof-count">
+                <svg viewBox="0 0 14 14" fill="none" width="13" height="13" aria-hidden="true"><rect x="1.5" y="8.5" width="2.5" height="4" rx=".5" stroke="currentColor" stroke-width="1.2"/><rect x="5.75" y="5" width="2.5" height="7.5" rx=".5" stroke="currentColor" stroke-width="1.2"/><rect x="10" y="1.5" width="2.5" height="11" rx=".5" stroke="currentColor" stroke-width="1.2"/></svg>
+                10 000+
+              </span>
+              <span class="hero__proof-label">simulations réalisées</span>
+              <span class="hero__proof-sub">Comparaisons anonymisées, sans engagement</span>
+            </div>
+          </div>
+
+          <!-- Security -->
+          <div class="hero__trust-sep" aria-hidden="true" />
+          <div class="hero__security" aria-label="Sécurité des données">
+            <div class="hero__security-icon" aria-hidden="true">
+              <svg viewBox="0 0 16 16" fill="none" width="15" height="15"><path d="M8 1.5L2 4v3.8c0 3.4 2.5 6.5 6 7.2 3.5-.7 6-3.8 6-7.2V4L8 1.5z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M5.5 8l2 2 3-3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <span>Données sécurisées et privées</span>
+          </div>
+
+        </div>
+
+        <!-- Benefits row — after CTA + trust (justification complémentaire) -->
+        <div class="hero__benefits hero__anim" style="--ad:490ms">
           <div class="hero__benefit">
             <span class="hero__benefit-icon" aria-hidden="true">
               <svg viewBox="0 0 18 18" fill="none"><rect x="2" y="10" width="3" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="7.5" y="6" width="3" height="10" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="13" y="2" width="3" height="14" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
@@ -42,7 +90,7 @@
           </div>
           <div class="hero__benefit">
             <span class="hero__benefit-icon" aria-hidden="true">
-              <svg viewBox="0 0 18 18" fill="none"><path d="M9 2l1.4 4h3.8l-3.1 2.3 1.2 3.7L9 10 5.7 12l1.2-3.7L3.8 6h3.8z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+              <svg viewBox="0 0 18 18" fill="none"><path d="M9 1.5l1.8 5.4H16l-4.4 3.2 1.7 5.2-4.3-3.2-4.3 3.2 1.7-5.2L2 6.9h5.2z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
             </span>
             <div>
               <div class="hero__benefit-title">Comparaisons impartiales</div>
@@ -51,7 +99,7 @@
           </div>
           <div class="hero__benefit">
             <span class="hero__benefit-icon" aria-hidden="true">
-              <svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="6.5" stroke="currentColor" stroke-width="1.5"/><path d="M6.5 7C6.5 5.9 7.6 5 9 5s2.5.9 2.5 2c0 1.5-2.5 2-2.5 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="9" cy="13" r=".9" fill="currentColor"/></svg>
+              <svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M6.5 7.5C6.5 6.1 7.6 5 9 5s2.5 1.1 2.5 2.5c0 1.8-2.5 2-2.5 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="9" cy="13.5" r="1" fill="currentColor"/></svg>
             </span>
             <div>
               <div class="hero__benefit-title">Hypothèses transparentes</div>
@@ -59,101 +107,41 @@
             </div>
           </div>
         </div>
-
-        <!-- CTAs -->
-        <div class="hero__ctas">
-          <!-- Primary CTA -->
-          <button type="button" class="hero__cta-primary" @click="onCompareClick" aria-label="Commencer à comparer avec IRIS">
-            <img
-              v-if="irisAvatarUrl"
-              :src="irisAvatarUrl"
-              alt="IRIS"
-              class="hero__cta-iris"
-              loading="eager"
-              referrerpolicy="no-referrer"
-            />
-            <div v-else class="hero__cta-iris-fallback" aria-hidden="true">I</div>
-            <span>Commencer à comparer avec IRIS</span>
-          </button>
-
-          <!-- Secondary CTA -->
-          <button type="button" class="hero__cta-secondary" @click="onExploreClick">
-            Explorer les placements
-          </button>
-        </div>
-
-        <!-- Social proof + security -->
-        <div class="hero__proof-row">
-          <!-- Avatars -->
-          <div class="hero__proof">
-            <div class="hero__avatars">
-              <div class="hero__avatar hero__avatar--1" aria-hidden="true">A</div>
-              <div class="hero__avatar hero__avatar--2" aria-hidden="true">B</div>
-              <div class="hero__avatar hero__avatar--3" aria-hidden="true">C</div>
-              <div class="hero__avatar hero__avatar--4" aria-hidden="true">D</div>
-              <div class="hero__avatar hero__avatar--plus" aria-hidden="true">+</div>
-            </div>
-            <div class="hero__proof-text">
-              <span class="hero__proof-count">
-                <svg viewBox="0 0 16 16" fill="none" width="14" height="14" aria-hidden="true"><rect x="2" y="9" width="2.5" height="5" rx=".5" stroke="currentColor" stroke-width="1.3"/><rect x="6.75" y="5" width="2.5" height="9" rx=".5" stroke="currentColor" stroke-width="1.3"/><rect x="11.5" y="1" width="2.5" height="13" rx=".5" stroke="currentColor" stroke-width="1.3"/></svg>
-                10 000+
-              </span>
-              <span class="hero__proof-label">simulations réalisées</span>
-            </div>
-          </div>
-          <!-- Security -->
-          <div class="hero__security">
-            <svg viewBox="0 0 16 16" fill="none" width="16" height="16" aria-hidden="true"><path d="M8 1.5L2 4v4c0 3.3 2.4 6.4 6 7.1 3.6-.7 6-3.8 6-7.1V4L8 1.5z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M5.5 8l2 2 3-3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span>Données sécurisées et privées</span>
-          </div>
-        </div>
-
       </div><!-- /copy -->
 
-      <!-- ── Right column — illustration ───────────────────────────────── -->
-      <div class="hero__visual">
-        <!-- Performance card -->
-        <div class="hero__perf-card">
-          <div class="hero__perf-badge">Performance 12 mois</div>
-          <div class="hero__perf-value">+8,42 %</div>
-          <div class="hero__perf-category">Marchés actions · Monde</div>
-          <div class="hero__perf-chart" aria-hidden="true">
-            <svg viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M0 35 L15 28 L30 32 L45 20 L60 22 L75 14 L90 8 L105 5 L120 2" stroke="#E78A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-              <path d="M0 35 L15 28 L30 32 L45 20 L60 22 L75 14 L90 8 L105 5 L120 2 L120 40 L0 40Z" fill="url(#perfGrad)" opacity="0.25"/>
-              <defs>
-                <linearGradient id="perfGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#E78A2E" stop-opacity="0.6"/>
-                  <stop offset="100%" stop-color="#E78A2E" stop-opacity="0"/>
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-        </div>
+      <!-- ── Right column — illustration ──────────────────────────────────── -->
+      <div class="hero__visual" aria-hidden="true">
 
-        <!-- Deer illustration — eager on desktop -->
-        <picture class="hero__deer-wrap">
-          <source
-            v-if="isMobile"
-            :srcset="isDark ? heroMobileDarkUrl : heroMobileLightUrl"
-            media="(max-width: 1023px)"
-          />
-          <img
-            :src="isDark ? heroDesktopDarkUrl : heroDesktopLightUrl"
-            alt=""
-            class="hero__deer"
-            loading="eager"
-            draggable="false"
-          />
-        </picture>
+        <img
+          :src="heroImageUrl"
+          alt=""
+          class="hero__deer hero__anim"
+          style="--ad:110ms"
+          loading="eager"
+          draggable="false"
+          referrerpolicy="no-referrer"
+        />
+
       </div><!-- /visual -->
 
     </div><!-- /inner -->
+
+    <!-- ── Scroll cue — centered, premium, animée ─────────────────────────── -->
+    <div class="hero__scroll-cue hero__anim" style="--ad:900ms" aria-label="Défiler vers le bas">
+      <div class="hero__scroll-mouse">
+        <div class="hero__scroll-dot" />
+      </div>
+      <!-- Subtle orange chevron below the mouse -->
+      <svg class="hero__scroll-chevron" viewBox="0 0 16 10" fill="none" width="16" height="10" aria-hidden="true">
+        <path d="M1 1.5 L8 8.5 L15 1.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
   </section>
 </template>
 
 <script>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { computed, onMounted } from 'vue'
 
 function _getWin() {
   try { return (typeof wwLib !== 'undefined' ? wwLib?.getFrontWindow?.() : null) ?? window } catch { return window }
@@ -165,458 +153,527 @@ function _getDoc() {
 export default {
   name: 'AppHeroSection',
   props: {
-    isDark:               { type: Boolean, default: true },
-    compareUrl:           { type: String,  default: '/start' },
-    exploreUrl:           { type: String,  default: '#placements' },
-    heroDesktopDarkUrl:   { type: String,  default: '' },
-    heroDesktopLightUrl:  { type: String,  default: '' },
-    heroMobileDarkUrl:    { type: String,  default: '' },
-    heroMobileLightUrl:   { type: String,  default: '' },
-    irisAvatarUrl:        { type: String,  default: '' },
+    isDark:        { type: Boolean, default: true },
+    compareUrl:    { type: String,  default: '/start' },
+    exploreUrl:    { type: String,  default: '#placements' },
+    heroDarkUrl:   { type: String,  default: '' },
+    heroLightUrl:  { type: String,  default: '' },
+    irisAvatarUrl: { type: String,  default: '' },
   },
   emits: ['compare-click', 'explore-click', 'hero-mounted'],
 
   setup(props, { emit }) {
-    const isMobile = ref(false)
-    let _resizeH = null
-    function _checkMobile() { try { isMobile.value = _getWin().innerWidth < 1024 } catch { /* noop */ } }
-    onMounted(() => {
-      _checkMobile()
-      _resizeH = () => _checkMobile()
-      try { _getWin().addEventListener('resize', _resizeH, { passive: true }) } catch { /* noop */ }
-      emit('hero-mounted')
-    })
-    onUnmounted(() => { try { _getWin().removeEventListener('resize', _resizeH) } catch { /* noop */ } })
+    const heroImageUrl = computed(() => props.isDark ? props.heroDarkUrl : props.heroLightUrl)
+
+    onMounted(() => emit('hero-mounted'))
 
     function onCompareClick() {
       emit('compare-click')
       try { _getWin().location.href = props.compareUrl } catch { /* noop */ }
     }
-
     function onExploreClick() {
       emit('explore-click')
       try {
         const url = props.exploreUrl ?? '#placements'
         if (url.startsWith('#')) {
-          const anchor = url.slice(1)
-          const doc = _getDoc()
-          const el = doc?.getElementById(anchor) ?? doc?.querySelector(`[data-anchor="${anchor}"]`)
+          const el = _getDoc()?.getElementById(url.slice(1))
           if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); return }
         }
         _getWin().location.href = url
       } catch { /* noop */ }
     }
 
-    return { isMobile, onCompareClick, onExploreClick }
+    return { heroImageUrl, onCompareClick, onExploreClick }
   },
 }
 </script>
 
 <style scoped>
-/* ── Root ──────────────────────────────────────────────────────────────────── */
+/* ═══ Entrance animation ═══════════════════════════════════════════════════ */
+.hero__anim {
+  animation: hero-fade-up 0.72s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--ad, 0ms);
+}
+@keyframes hero-fade-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__anim { animation: none !important; opacity: 1 !important; transform: none !important; }
+}
+
+/* ═══ Root ══════════════════════════════════════════════════════════════════ */
 .hero {
   position: relative;
   width: 100%;
   overflow: hidden;
   box-sizing: border-box;
 }
+/* Dark: same as global PRE background → seamless with header */
+.hero--dark  { background: #0b1020; color: rgba(226, 232, 240, 0.92); }
+.hero--light { background: #f9fafc; color: rgba(11, 16, 32, 0.88); }
 
-/* ── Backgrounds ─────────────────────────────────────────────────────────── */
-.hero--dark  { background: #06091a; color: rgba(226,232,240,0.9); }
-.hero--light { background: #f4f6fb; color: rgba(15,23,42,0.88); }
-
-.hero__bg-glow { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
-.hero__glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); }
-.hero__glow-orb--1 {
-  width: 600px; height: 600px;
-  top: -200px; right: -100px;
-  background: rgba(231, 138, 46, 0.10);
+/* ═══ Glow — pure CSS radial-gradient, organic, zero hard edges ═════════ */
+/* Bottom-left indigo glow removed (visible "blue square" artifact).       */
+/* Orange glow repositioned at center-right of illustration area.          */
+.hero__glows {
+  position: absolute; inset: 0;
+  pointer-events: none; overflow: hidden; z-index: 0;
+  background-image:
+    radial-gradient(ellipse 48% 52% at 70% 45%, rgba(231, 138, 46, 0.076) 0%, transparent 74%);
 }
-.hero__glow-orb--2 {
-  width: 400px; height: 400px;
-  bottom: -100px; left: -80px;
-  background: rgba(99, 102, 241, 0.07);
+.hero--light .hero__glows {
+  background-image:
+    radial-gradient(ellipse 48% 52% at 70% 45%, rgba(231, 138, 46, 0.052) 0%, transparent 74%);
 }
-.hero--light .hero__glow-orb--1 { background: rgba(231, 138, 46, 0.07); }
-.hero--light .hero__glow-orb--2 { background: rgba(99, 102, 241, 0.05); }
 
-/* ── Inner — 2 columns desktop ───────────────────────────────────────────── */
+/* ═══ Layout ════════════════════════════════════════════════════════════════ */
+/* Horizontal padding fixed at 24px across all breakpoints to align with   */
+/* the PRE header container. max-width + margin:auto handles centering.    */
 .hero__inner {
-  position: relative;
-  z-index: 1;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 64px 24px 80px;
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
+  position: relative; z-index: 1;
+  max-width: 1280px; margin: 0 auto;
+  padding: 44px 24px 64px;      /* mobile: tighter top, enough bottom */
+  display: flex; flex-direction: column;
 }
-
 @media (min-width: 1024px) {
   .hero__inner {
     flex-direction: row;
-    align-items: center;
-    padding: 96px 48px 100px;
-    gap: 40px;
-    min-height: 800px;
+    align-items: flex-start;
+    padding: 80px 24px 72px;
+    min-height: 820px;           /* desktop only */
   }
 }
-
 @media (min-width: 1280px) {
-  .hero__inner { padding: 100px 64px 108px; }
+  .hero__inner { padding: 88px 24px 80px; }
 }
 
-/* ── Copy column ─────────────────────────────────────────────────────────── */
+/* ═══ Copy column ═══════════════════════════════════════════════════════════ */
 .hero__copy {
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column; gap: 18px;  /* mobile: tighter */
   width: 100%;
 }
-
 @media (min-width: 1024px) {
-  .hero__copy { width: 46%; flex-shrink: 0; gap: 32px; }
+  .hero__copy { width: 48%; flex-shrink: 0; padding-right: 48px; gap: 28px; padding-top: 8px; }
 }
 
 /* Badge */
 .hero__badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
+  display: inline-flex; align-items: center; gap: 8px;
   align-self: flex-start;
-  padding: 7px 14px 7px 10px;
+  padding: 6px 14px 6px 10px;
   border-radius: 999px;
-  border: 1px solid rgba(231, 138, 46, 0.28);
-  background: rgba(231, 138, 46, 0.10);
-  font-size: 13px;
-  font-weight: 600;
-  color: #E78A2E;
+  border: 1px solid rgba(231,138,46,0.30);
+  background: rgba(231,138,46,0.10);
+  font-size: 13px; font-weight: 600; color: #E78A2E;
   letter-spacing: 0.01em;
-  animation: badge-shimmer 3s ease-in-out infinite;
 }
-.hero--light .hero__badge { background: rgba(231, 138, 46, 0.08); }
-
+.hero--light .hero__badge {
+  background: rgba(231,138,46,0.09);
+  border-color: rgba(231,138,46,0.26);
+}
 .hero__badge-dot {
-  width: 8px; height: 8px; border-radius: 50%;
+  width: 7px; height: 7px; border-radius: 50%;
   background: #E78A2E;
-  box-shadow: 0 0 8px rgba(231, 138, 46, 0.7);
+  box-shadow: 0 0 7px rgba(231,138,46,0.75);
   flex-shrink: 0;
-  animation: pulse-dot 2s ease-in-out infinite;
-}
-
-@keyframes badge-shimmer {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(231,138,46,0); }
-  50% { box-shadow: 0 0 20px 2px rgba(231,138,46,0.12); }
+  animation: pulse-dot 2.2s ease-in-out infinite;
 }
 @keyframes pulse-dot {
   0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.3); opacity: 0.7; }
+  50%       { transform: scale(1.35); opacity: 0.65; }
 }
-@media (prefers-reduced-motion: reduce) {
-  .hero__badge, .hero__badge-dot { animation: none; }
-}
+@media (prefers-reduced-motion: reduce) { .hero__badge-dot { animation: none; } }
 
 /* H1 */
 .hero__h1 {
-  font-size: clamp(32px, 6vw, 56px);
-  font-weight: 800;
-  line-height: 1.12;
-  letter-spacing: -0.02em;
-  margin: 0;
-  color: inherit;
+  font-size: clamp(28px, 7.5vw, 54px);
+  font-weight: 800; line-height: 1.10; letter-spacing: -0.026em; margin: 0;
 }
-.hero--dark  .hero__h1 { color: rgba(248,250,252,0.96); }
-.hero--light .hero__h1 { color: rgba(15,23,42,0.94); }
+.hero--dark  .hero__h1 { color: rgba(248, 250, 252, 0.97); }
+.hero--light .hero__h1 { color: rgba(11, 16, 32, 0.96); }
 .hero__h1-orange { color: #E78A2E; }
-
-@media (min-width: 1024px) {
-  .hero__h1 { font-size: clamp(40px, 4.5vw, 58px); line-height: 1.1; }
-}
+@media (min-width: 1024px) { .hero__h1 { font-size: clamp(38px, 4.0vw, 56px); } }
 
 /* Subtext */
-.hero__subtext {
-  font-size: clamp(14px, 2.2vw, 17px);
-  line-height: 1.7;
-  margin: 0;
-  opacity: 0.72;
-  max-width: 540px;
+.hero__sub {
+  font-size: clamp(13.5px, 1.7vw, 16px);
+  line-height: 1.68; margin: 0; max-width: 520px;
 }
+.hero--dark  .hero__sub { color: rgba(226,232,240,0.65); }
+.hero--light .hero__sub { color: rgba(11,16,32,0.60); }
 
-/* Benefits chips */
+/* ═══ Benefits ══════════════════════════════════════════════════════════════ */
+/* Compact group — must not exceed CTA width visually */
 .hero__benefits {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 6px;
+  align-self: flex-start;    /* prevents stretching to full column width */
 }
+@media (min-width: 1024px) { .hero__benefits { flex-wrap: nowrap; gap: 8px; } }
 
 .hero__benefit {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  padding: 9px 14px;
-  border-radius: 14px;
-  border: 1px solid rgba(255,255,255,0.07);
-  background: rgba(255,255,255,0.04);
-  backdrop-filter: blur(10px);
-  transition: background 0.15s, border-color 0.15s;
+  display: flex; align-items: center; gap: 7px;
+  padding: 7px 10px 7px 7px;  /* reduced horizontal padding */
+  border-radius: 10px;
+  transition: border-color 0.16s, background 0.16s;
+}
+.hero--dark  .hero__benefit {
+  border: 1px solid rgba(255,255,255,0.055);   /* more subtle */
+  background: rgba(255,255,255,0.026);
+  backdrop-filter: blur(6px);
 }
 .hero--light .hero__benefit {
-  border-color: rgba(15,23,42,0.08);
-  background: rgba(255,255,255,0.7);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  border: 1px solid rgba(11,16,32,0.07);
+  background: rgba(255,255,255,0.60);
+  box-shadow: 0 1px 6px rgba(0,0,0,0.04);
 }
-.hero__benefit:hover { border-color: rgba(231,138,46,0.24); background: rgba(231,138,46,0.06); }
-
+.hero__benefit:hover {
+  border-color: rgba(231,138,46,0.18);
+  background: rgba(231,138,46,0.055);
+}
 .hero__benefit-icon {
   display: flex; align-items: center; justify-content: center;
-  width: 32px; height: 32px; flex-shrink: 0;
-  border-radius: 10px;
-  background: rgba(231,138,46,0.12);
+  width: 26px; height: 26px; flex-shrink: 0;
+  border-radius: 8px;
+  background: rgba(231,138,46,0.09);  /* lighter icon bg */
   color: #E78A2E;
 }
-.hero__benefit-icon svg { width: 16px; height: 16px; display: block; }
+.hero__benefit-icon svg { width: 13px; height: 13px; display: block; }
+.hero__benefit-title { font-size: 11.5px; font-weight: 700; line-height: 1.25; white-space: nowrap; }
+.hero--dark  .hero__benefit-title { color: rgba(255,255,255,0.80); }  /* slightly dimmer */
+.hero--light .hero__benefit-title { color: rgba(11,16,32,0.78); }
+.hero__benefit-desc { font-size: 10.5px; line-height: 1.25; white-space: nowrap; }
+.hero--dark  .hero__benefit-desc { color: rgba(255,255,255,0.32); }
+.hero--light .hero__benefit-desc { color: rgba(11,16,32,0.38); }
 
-.hero__benefit-title {
-  font-size: 12.5px; font-weight: 700;
-  color: rgba(255,255,255,0.88); line-height: 1.2;
-  white-space: nowrap;
-}
-.hero--light .hero__benefit-title { color: rgba(15,23,42,0.84); }
-.hero__benefit-desc {
-  font-size: 11.5px; font-weight: 400;
-  color: rgba(255,255,255,0.42); line-height: 1.2;
-  white-space: nowrap;
-}
-.hero--light .hero__benefit-desc { color: rgba(15,23,42,0.42); }
-
-/* CTAs */
-.hero__ctas { display: flex; flex-direction: column; gap: 12px; }
-
-@media (min-width: 480px) {
-  .hero__ctas { flex-direction: row; flex-wrap: wrap; gap: 12px; }
-}
-
-.hero__cta-primary {
+/* ═══ CTAs ══════════════════════════════════════════════════════════════════ */
+/* Single IRIS CTA — no secondary */
+.hero__actions {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  max-width: 420px;
-  height: 60px;
-  padding: 0 28px 0 10px;
-  border-radius: 999px;
-  border: none;
-  background: linear-gradient(135deg, #E78A2E, #d4751e);
-  color: #fff;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  letter-spacing: 0.01em;
-  box-shadow: 0 4px 24px rgba(231,138,46,0.36), 0 0 0 0 rgba(231,138,46,0);
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  flex-direction: column;
+}
+
+/* ── Desktop: extra breathing room between the main copy groups ──────────── */
+/* These margin-top values add on top of the flex gap (.hero__copy gap: 28px) */
+@media (min-width: 1024px) {
+  .hero__actions  { margin-top: 12px; }  /* sub → CTA  : 28 + 12 = 40px  */
+  .hero__trust    { margin-top:  8px; }  /* CTA → trust: 28 +  8 = 36px  */
+  .hero__benefits { margin-top: 10px; }  /* trust → args: 28 + 10 = 38px */
+}
+
+/* Primary CTA */
+.hero__cta-primary {
+  position: relative;
+  display: flex; align-items: center; gap: 14px;
+  width: 100%;                  /* full width of copy column */
+  height: 64px; padding: 0 20px 0 9px;
+  border-radius: 999px; border: none;
+  background: linear-gradient(135deg, #E78A2E 0%, #d4751e 100%);
+  color: #0b1020;
+  font-size: 15.5px; font-weight: 700;
+  cursor: pointer; letter-spacing: 0.01em;
+  box-shadow: 0 4px 32px rgba(231,138,46,0.40);
+  transition: transform 0.18s cubic-bezier(0.16,1,0.3,1), box-shadow 0.18s ease;
+  overflow: hidden;
+  animation: cta-glow-once 1.4s ease-out 1.0s both;
 }
 .hero__cta-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 36px rgba(231,138,46,0.52);
+  box-shadow: 0 10px 48px rgba(231,138,46,0.60);
 }
 .hero__cta-primary:active { transform: translateY(0); }
 .hero__cta-primary:focus-visible { outline: 2px solid #E78A2E; outline-offset: 3px; }
-
-@media (max-width: 479px) {
-  .hero__cta-primary { max-width: 100%; justify-content: center; height: 56px; font-size: 15px; }
+@keyframes cta-glow-once {
+  0%   { box-shadow: 0 4px 32px rgba(231,138,46,0.40); }
+  50%  { box-shadow: 0 4px 64px rgba(231,138,46,0.74); }
+  100% { box-shadow: 0 4px 32px rgba(231,138,46,0.40); }
+}
+/* Shimmer sweep once */
+.hero__cta-primary::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.22) 50%, transparent 70%);
+  background-size: 250% 100%;
+  background-position: -200% center;
+  animation: cta-shimmer 1.2s ease-out 0.7s 1 both;
+  pointer-events: none;
+}
+@keyframes cta-shimmer {
+  from { background-position: -200% center; }
+  to   { background-position: 300% center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__cta-primary { animation: none; }
+  .hero__cta-primary::after { animation: none; }
+}
+@media (min-width: 640px) {
+  /* Stretch to fill the copy column width — no max-width cap */
+  .hero__cta-primary { height: 66px; font-size: 16px; gap: 16px; max-width: 480px; }
+}
+@media (min-width: 1024px) {
+  .hero__cta-primary { font-size: 17px; height: 68px; max-width: 480px; }
+}
+@media (max-width: 639px) {
+  .hero__cta-primary { justify-content: flex-start; height: 60px; font-size: 15px; }
 }
 
-.hero__cta-iris {
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  background: rgba(255,255,255,0.2);
-  flex-shrink: 0;
-}
-.hero__cta-iris-fallback {
-  width: 40px; height: 40px; border-radius: 50%;
-  background: rgba(255,255,255,0.25);
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 16px; flex-shrink: 0;
-}
-
-.hero__cta-secondary {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  max-width: 420px;
-  height: 60px;
-  padding: 0 28px;
-  border-radius: 999px;
-  border: 1.5px solid rgba(255,255,255,0.16);
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(10px);
-  color: rgba(255,255,255,0.84);
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  letter-spacing: 0.01em;
-  transition: color 0.15s, background 0.15s, border-color 0.15s;
-}
-.hero--light .hero__cta-secondary {
-  border-color: rgba(15,23,42,0.18);
-  background: rgba(255,255,255,0.6);
-  color: rgba(15,23,42,0.78);
-}
-.hero__cta-secondary:hover {
-  color: #E78A2E;
-  border-color: rgba(231,138,46,0.40);
-  background: rgba(231,138,46,0.06);
-}
-.hero__cta-secondary:focus-visible { outline: 2px solid #E78A2E; outline-offset: 2px; }
-
-@media (max-width: 479px) {
-  .hero__cta-secondary { max-width: 100%; height: 56px; font-size: 15px; }
-}
-
-/* Social proof row */
-.hero__proof-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 16px 24px;
-}
-
-.hero__proof { display: flex; align-items: center; gap: 10px; }
-
-.hero__avatars { display: flex; }
-.hero__avatar {
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  border: 2px solid rgba(10,15,30,0.7);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 700; color: #fff;
-  flex-shrink: 0; background: #1e3050;
-  margin-left: -8px;
-}
-.hero__avatar:first-child { margin-left: 0; }
-.hero__avatar--1 { background: linear-gradient(135deg,#4e7cbf,#3357a0); }
-.hero__avatar--2 { background: linear-gradient(135deg,#7c5ebf,#5c3da0); }
-.hero__avatar--3 { background: linear-gradient(135deg,#bf7c5e,#a05c3d); }
-.hero__avatar--4 { background: linear-gradient(135deg,#5ebfac,#3da08f); }
-.hero__avatar--plus { background: rgba(231,138,46,0.15); color: #E78A2E; border-color: rgba(231,138,46,0.3); font-size: 14px; }
-
-.hero__proof-text { display: flex; flex-direction: column; gap: 1px; }
-.hero__proof-count { display: flex; align-items: center; gap: 5px; font-size: 14px; font-weight: 700; color: rgba(255,255,255,0.9); }
-.hero--light .hero__proof-count { color: rgba(15,23,42,0.88); }
-.hero__proof-label { font-size: 11.5px; color: rgba(255,255,255,0.44); }
-.hero--light .hero__proof-label { color: rgba(15,23,42,0.44); }
-
-.hero__security {
-  display: flex; align-items: center; gap: 7px;
-  font-size: 12.5px; font-weight: 500;
-  color: rgba(255,255,255,0.44);
-}
-.hero--light .hero__security { color: rgba(15,23,42,0.48); }
-
-/* ── Visual column ───────────────────────────────────────────────────────── */
-.hero__visual {
-  position: relative;
+/* Label — flex spread: text left, arrow pushed right */
+.hero__cta-label {
   flex: 1;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  gap: 8px;
+  white-space: nowrap;
+  min-width: 0;
+}
+.hero__cta-arrow {
+  display: inline-block;
+  font-size: 20px; line-height: 1; flex-shrink: 0;
+  transition: transform 0.18s ease;
+}
+.hero__cta-primary:hover .hero__cta-arrow { transform: translateX(5px); }
+
+/* IRIS avatar ring — bigger and more prominent */
+.hero__iris-ring {
+  flex-shrink: 0;
+  width: 50px; height: 50px;
+  border-radius: 50%;
+  border: 2.5px solid rgba(255,255,255,0.40);
+  background: rgba(255,255,255,0.15);
+  overflow: hidden;
+  box-shadow: 0 0 14px rgba(231,138,46,0.50);
+  transition: box-shadow 0.2s ease;
+}
+.hero__cta-primary:hover .hero__iris-ring {
+  box-shadow: 0 0 26px rgba(231,138,46,0.75);
+}
+.hero__iris-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+.hero__iris-fallback {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 20px;
+  color: rgba(255,255,255,0.90);
+}
+@media (min-width: 1024px) {
+  .hero__iris-ring { width: 54px; height: 54px; }
+  .hero__cta-primary { height: 66px; font-size: 16px; gap: 16px; padding: 0 36px 0 9px; }
+}
+
+/* ═══ Trust row ═════════════════════════════════════════════════════════════ */
+.hero__trust {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 20px;
+}
+@media (min-width: 640px) {
+  .hero__trust {
+    flex-wrap: nowrap;   /* single line on desktop */
+    gap: 0;
+  }
+}
+
+/* Social proof */
+.hero__proof { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.hero__avatars { display: flex; }
+.hero__av {
+  width: 32px; height: 32px; border-radius: 50%;
+  margin-left: -8px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11.5px; font-weight: 700;
+}
+.hero--dark  .hero__av { border: 2.5px solid #0b1020; }
+.hero--light .hero__av { border: 2.5px solid #f6f8fc; }
+.hero__av:first-child { margin-left: 0; }
+
+/* Credible face-tone gradients */
+.hero__av--1 { background: linear-gradient(145deg, #f5c5a3, #dc8f60); color: rgba(0,0,0,0.60); }
+.hero__av--2 { background: linear-gradient(145deg, #d4a070, #a86e3a); color: rgba(255,255,255,0.88); }
+.hero__av--3 { background: linear-gradient(145deg, #f8e0d0, #e2aa88); color: rgba(0,0,0,0.55); }
+.hero__av--4 { background: linear-gradient(145deg, #6e5448, #4a3428); color: rgba(255,255,255,0.92); }
+.hero__av--more {
+  background: rgba(231,138,46,0.14);
+  border-color: rgba(231,138,46,0.28) !important;
+  color: #E78A2E; font-size: 12px;
+}
+.hero__avatars:hover .hero__av {
+  transform: translateY(-2px);
+  transition: transform 0.18s ease;
+}
+@media (prefers-reduced-motion: reduce) { .hero__avatars:hover .hero__av { transform: none; } }
+
+.hero__proof-text { display: flex; flex-direction: column; gap: 1px; }
+.hero__proof-count {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 13px; font-weight: 700;
+}
+.hero--dark  .hero__proof-count { color: rgba(248,250,252,0.90); }
+.hero--light .hero__proof-count { color: rgba(11,16,32,0.88); }
+.hero__proof-label { font-size: 11px; }
+.hero--dark  .hero__proof-label { color: rgba(255,255,255,0.40); }
+.hero--light .hero__proof-label { color: rgba(11,16,32,0.46); }
+/* proof-sub: hidden by default, never affects trust row layout */
+.hero__proof-sub { display: none; }
+
+/* Separator between proof and security */
+.hero__trust-sep {
+  flex-shrink: 0;
+  width: 1px; height: 28px;
+  margin: 0 16px;
+}
+.hero--dark  .hero__trust-sep { background: rgba(255,255,255,0.10); }
+.hero--light .hero__trust-sep { background: rgba(11,16,32,0.12); }
+@media (max-width: 639px) { .hero__trust-sep { display: none; } }
+
+/* Security — green */
+.hero__security {
+  display: flex; align-items: center; gap: 7px;
+  padding: 6px 12px 6px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(16, 185, 129, 0.20);
+  background: rgba(16, 185, 129, 0.08);
+  font-size: 12px; font-weight: 600;
+  color: #10B981;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.hero__security-icon {
+  display: flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; flex-shrink: 0;
+  color: #10B981;
+}
+.hero__security-icon svg { display: block; }
+
+/* ═══ Visual column ═════════════════════════════════════════════════════════ */
+.hero__visual {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  /* no background — the illustration is transparent PNG on #0b1020 */
 }
 
 /* Deer */
-.hero__deer-wrap {
-  display: block;
-  position: relative;
-  z-index: 1;
-}
-
 .hero__deer {
-  width: 100%;
-  max-width: 480px;
-  height: auto;
   display: block;
   object-fit: contain;
-  filter: drop-shadow(0 0 40px rgba(231,138,46,0.2));
-  animation: deer-float 6s ease-in-out infinite;
+  /* no background fallback — transparent PNG */
+  animation: deer-float 7s ease-in-out infinite;
 }
+@keyframes deer-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-14px); }
+}
+@media (prefers-reduced-motion: reduce) { .hero__deer { animation: none; } }
 
+/* Mobile: decorative bottom accent — anchored to hero bottom, character visible */
 @media (max-width: 1023px) {
   .hero__visual {
     position: absolute;
-    top: 0; right: -20px;
-    width: 55%;
-    max-width: 280px;
-    opacity: 0.55;
+    top: auto;
+    bottom: 8px;             /* anchored near hero bottom — minimal gap */
+    right: -8px;             /* barely off-edge so character isn't cut off */
+    width: 90vw;
+    max-width: 360px;
+    opacity: 0.18;           /* ghost-level: atmospheric only */
     pointer-events: none;
-    z-index: 0;
+    z-index: 0;              /* behind copy z-index: 2 */
   }
-  .hero__deer { max-width: 100%; }
-  .hero__copy { position: relative; z-index: 1; }
-}
-
-@media (min-width: 1024px) {
-  .hero__visual { width: 54%; }
-  .hero__deer { max-width: 560px; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero__deer { animation: none; }
-}
-
-@keyframes deer-float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-12px); }
-}
-
-/* Performance card */
-.hero__perf-card {
-  position: absolute;
-  bottom: 32px;
-  left: 0px;
-  z-index: 2;
-  padding: 16px 20px;
-  border-radius: 20px;
-  border: 1px solid rgba(231,138,46,0.20);
-  background: rgba(10,15,30,0.82);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  min-width: 200px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.36), 0 0 0 0.5px rgba(231,138,46,0.15);
-}
-.hero--light .hero__perf-card {
-  background: rgba(255,255,255,0.88);
-  border-color: rgba(231,138,46,0.16);
-  box-shadow: 0 8px 28px rgba(0,0,0,0.12);
-}
-
-.hero__perf-badge {
-  font-size: 10.5px; font-weight: 600;
-  color: rgba(255,255,255,0.44);
-  text-transform: uppercase; letter-spacing: 0.08em;
-  margin-bottom: 6px;
-}
-.hero--light .hero__perf-badge { color: rgba(15,23,42,0.44); }
-
-.hero__perf-value {
-  font-size: 28px; font-weight: 800;
-  color: #22c55e; letter-spacing: -0.03em;
-  line-height: 1;
-}
-.hero__perf-category {
-  font-size: 11px; font-weight: 500;
-  color: rgba(255,255,255,0.36);
-  margin-top: 4px;
-}
-.hero--light .hero__perf-category { color: rgba(15,23,42,0.42); }
-
-.hero__perf-chart {
-  margin-top: 10px;
-  overflow: hidden;
-}
-.hero__perf-chart svg { width: 100%; height: 40px; display: block; }
-
-@media (max-width: 1023px) {
+  .hero__deer { width: 100%; height: auto; animation: none; }
   .hero__perf-card { display: none; }
+  .hero__copy { padding-bottom: 0; }
+
+  /* Trust row: allow wrap on narrow screens */
+  .hero__trust { flex-wrap: wrap; gap: 8px 12px; }
+  .hero__trust-sep { display: none; }  /* hide separator on mobile — they wrap */
+
+  /* Benefits: more compact on mobile */
+  .hero__benefits { gap: 6px; flex-wrap: wrap; }
+  .hero__benefit  { padding: 6px 9px 6px 6px; }
+
+  /* CTA: ensure text stays on one line at 390px */
+  .hero__cta-primary { font-size: 14.5px; gap: 10px; height: 58px; padding-right: 18px; max-width: 100%; }
+  .hero__iris-ring   { width: 44px; height: 44px; }
+
+  /* Scroll cue: hidden on mobile (dock handles navigation awareness) */
+  .hero__scroll-cue { display: none; }
+}
+/* Desktop: fills right column */
+@media (min-width: 1024px) {
+  .hero__visual { width: 52%; overflow: visible; margin-top: -16px; }
+  .hero__deer { width: 100%; max-width: 680px; margin-left: auto; }
+}
+@media (min-width: 1280px) {
+  .hero__deer { max-width: 760px; }
+}
+
+/* ═══ Scroll cue ════════════════════════════════════════════════════════════ */
+.hero__scroll-cue {
+  position: absolute;
+  bottom: 72px;                /* raised — clear of dock and bottom edge */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: default;
+}
+/* Hide on mobile — not needed when hero stacks vertically */
+@media (max-width: 1023px) { .hero__scroll-cue { display: none; } }
+
+.hero__scroll-mouse {
+  width: 22px; height: 34px;
+  border-radius: 11px;
+  display: flex;
+  justify-content: center;
+  padding-top: 7px;
+  box-sizing: border-box;
+}
+.hero--dark  .hero__scroll-mouse { border: 1.5px solid rgba(255,255,255,0.24); }
+.hero--light .hero__scroll-mouse { border: 1.5px solid rgba(11,16,32,0.22); }
+
+.hero__scroll-dot {
+  width: 3.5px; height: 7px;
+  border-radius: 2px;
+  animation: scroll-dot-drop 2s ease-in-out 2.6s infinite;
+}
+.hero--dark  .hero__scroll-dot { background: rgba(255,255,255,0.40); }
+.hero--light .hero__scroll-dot { background: rgba(11,16,32,0.32); }
+
+@keyframes scroll-dot-drop {
+  0%         { transform: translateY(0);   opacity: 1; }
+  60%        { transform: translateY(8px); opacity: 0.20; }
+  100%       { transform: translateY(0);   opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__scroll-dot { animation: none; }
+}
+
+/* Chevron below the mouse */
+.hero__scroll-chevron {
+  display: block;
+  color: rgba(231, 138, 46, 0.55);  /* soft orange */
+  animation: scroll-chevron-pulse 2s ease-in-out 3.0s infinite;
+}
+.hero--light .hero__scroll-chevron { color: rgba(231, 138, 46, 0.45); }
+@keyframes scroll-chevron-pulse {
+  0%, 100% { opacity: 0.55; transform: translateY(0); }
+  50%       { opacity: 0.90; transform: translateY(3px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__scroll-chevron { animation: none; }
 }
 </style>

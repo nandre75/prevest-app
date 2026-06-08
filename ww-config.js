@@ -7,24 +7,17 @@ export default {
   properties: {
     // ── Theme ────────────────────────────────────────────────────────────────
     isDarkMode: {
-      label: { en: 'Dark mode' },
+      label: { en: 'Dark mode (initial / fallback)' },
       type: 'OnOff',
       section: 'settings',
       bindable: true,
       defaultValue: true,
       /* wwEditor:start */
-      bindingValidation: { type: 'boolean', tooltip: 'Toggle dark/light mode.' },
-      /* wwEditor:end */
-    },
-
-    showHeader: {
-      label: { en: 'Show header' },
-      type: 'OnOff',
-      section: 'settings',
-      bindable: true,
-      defaultValue: true,
-      /* wwEditor:start */
-      bindingValidation: { type: 'boolean', tooltip: 'Show the APP header.' },
+      bindingValidation: {
+        type: 'boolean',
+        tooltip: 'Valeur initiale / fallback. Le mode réel est piloté par html.ww-app-theme-dark via MutationObserver.',
+      },
+      propertyHelp: 'Le composant lit automatiquement la classe html.ww-app-theme-dark définie par le header PRE. Cette prop sert uniquement de valeur initiale.',
       /* wwEditor:end */
     },
 
@@ -35,7 +28,7 @@ export default {
       bindable: true,
       defaultValue: true,
       /* wwEditor:start */
-      bindingValidation: { type: 'boolean', tooltip: 'Show the hero section.' },
+      bindingValidation: { type: 'boolean', tooltip: 'Afficher la section hero.' },
       /* wwEditor:end */
     },
 
@@ -46,59 +39,72 @@ export default {
       bindable: true,
       defaultValue: true,
       /* wwEditor:start */
-      bindingValidation: { type: 'boolean', tooltip: 'Show the story / problem-solution section.' },
+      bindingValidation: { type: 'boolean', tooltip: 'Afficher la section story / problem-solution.' },
       /* wwEditor:end */
     },
 
-    // ── Auth ─────────────────────────────────────────────────────────────────
-    authStatus: {
-      label: { en: 'Auth status' },
-      type: 'TextSelect',
+    showConcept: {
+      label: { en: 'Show concept section' },
+      type: 'OnOff',
       section: 'settings',
+      bindable: true,
+      defaultValue: true,
+      /* wwEditor:start */
+      bindingValidation: { type: 'boolean', tooltip: 'Afficher la section concept / comment ça marche.' },
+      /* wwEditor:end */
+    },
+
+    showCompareWays: {
+      label: { en: 'Show "Compare ways" section' },
+      type: 'OnOff',
+      section: 'settings',
+      bindable: true,
+      defaultValue: true,
+      /* wwEditor:start */
+      bindingValidation: { type: 'boolean', tooltip: 'Afficher la section "Deux façons d\'explorer votre épargne".' },
+      /* wwEditor:end */
+    },
+
+    showMofo: {
+      label: { en: 'Show MOFO section' },
+      type: 'OnOff',
+      section: 'settings',
+      bindable: true,
+      defaultValue: true,
+      /* wwEditor:start */
+      bindingValidation: { type: 'boolean', tooltip: 'Afficher la section radar MOFO "Toute l\'offre, scannée en continu".' },
+      /* wwEditor:end */
+    },
+
+    radarBadges: {
+      label: { en: 'Radar badges (override)' },
+      type: 'Array',
+      section: 'settings',
+      bindable: true,
+      defaultValue: [],
+      hidden: true,
       options: {
-        options: [
-          { value: 'guest', label: 'Guest' },
-          { value: 'authenticated', label: 'Authenticated' },
-          { value: 'unknown', label: 'Unknown (loading)' },
-        ],
+        expandable: true,
+        getItemLabel(item) { return item?.label || item?.id || 'Badge'; },
+        item: {
+          type: 'Object',
+          defaultValue: { id: '', label: '', labelShort: '', angle: 0, radius: 0.6, initials: '', logoUrl: '' },
+          options: {
+            item: {
+              id:         { label: { en: 'ID (unique)' },         type: 'Text' },
+              label:      { label: { en: 'Label (full)' },        type: 'Text' },
+              labelShort: { label: { en: 'Label (short/badge)' }, type: 'Text' },
+              angle:      { label: { en: 'Angle ° (0=top, CW)' }, type: 'Number' },
+              radius:     { label: { en: 'Radius (0–0.76)' },     type: 'Number' },
+              initials:   { label: { en: 'Initials (fallback)' }, type: 'Text' },
+              logoUrl:    { label: { en: 'Logo URL' },            type: 'Text' },
+            },
+          },
+        },
       },
-      defaultValue: 'guest',
-      bindable: true,
       /* wwEditor:start */
-      bindingValidation: { type: 'string', tooltip: 'guest | authenticated | unknown' },
-      /* wwEditor:end */
-    },
-
-    userName: {
-      label: { en: 'User display name' },
-      type: 'Text',
-      section: 'settings',
-      bindable: true,
-      defaultValue: '',
-      /* wwEditor:start */
-      bindingValidation: { type: 'string', tooltip: 'Authenticated user display name.' },
-      /* wwEditor:end */
-    },
-
-    userAvatarUrl: {
-      label: { en: 'User avatar URL' },
-      type: 'Text',
-      section: 'settings',
-      bindable: true,
-      defaultValue: '',
-      /* wwEditor:start */
-      bindingValidation: { type: 'string', tooltip: 'Optional user avatar image URL.' },
-      /* wwEditor:end */
-    },
-
-    userInitials: {
-      label: { en: 'User initials' },
-      type: 'Text',
-      section: 'settings',
-      bindable: true,
-      defaultValue: '',
-      /* wwEditor:start */
-      bindingValidation: { type: 'string', tooltip: 'Two-letter fallback initials.' },
+      bindingValidation: { type: 'array', tooltip: 'Laissez vide pour utiliser les badges par défaut (BNP, Swiss Life, etc.).' },
+      propertyHelp: 'Override les badges radar. Laisser vide = badges par défaut. logoUrl: URL vers le logo PNG/SVG à afficher dans le badge.',
       /* wwEditor:end */
     },
 
@@ -110,7 +116,7 @@ export default {
       bindable: true,
       defaultValue: '/start',
       /* wwEditor:start */
-      bindingValidation: { type: 'string', tooltip: 'URL for the primary CTA "Commencer à comparer".' },
+      bindingValidation: { type: 'string', tooltip: 'URL du CTA principal "Commencer à comparer".' },
       /* wwEditor:end */
     },
 
@@ -121,87 +127,30 @@ export default {
       bindable: true,
       defaultValue: '#placements',
       /* wwEditor:start */
-      bindingValidation: { type: 'string', tooltip: 'URL or anchor for the secondary CTA "Explorer les placements".' },
-      /* wwEditor:end */
-    },
-
-    accountUrl: {
-      label: { en: 'Account URL' },
-      type: 'Text',
-      section: 'settings',
-      bindable: true,
-      defaultValue: 'https://account.prevest.ai',
-      /* wwEditor:start */
-      bindingValidation: { type: 'string', tooltip: 'URL for the authenticated account button.' },
-      /* wwEditor:end */
-    },
-
-    loginUrl: {
-      label: { en: 'Login URL' },
-      type: 'Text',
-      section: 'settings',
-      bindable: true,
-      defaultValue: 'https://account.prevest.ai/login',
-      /* wwEditor:start */
-      bindingValidation: { type: 'string', tooltip: 'URL for the login button. return_url will be appended.' },
-      /* wwEditor:end */
-    },
-
-    sessionStatusUrl: {
-      label: { en: 'Session-status endpoint URL' },
-      type: 'Text',
-      section: 'settings',
-      bindable: false,
-      defaultValue: 'https://account.prevest.ai/api/prevest/session-status',
-      /* wwEditor:start */
-      bindingValidation: { type: 'string', tooltip: 'Override the session-status endpoint.' },
-      propertyHelp: 'Auto-fetched on mount with credentials:include.',
+      bindingValidation: { type: 'string', tooltip: 'URL ou ancre pour le CTA secondaire "Explorer les placements".' },
       /* wwEditor:end */
     },
 
     // ── Assets — hero ─────────────────────────────────────────────────────────
-    heroDesktopDarkUrl: {
-      label: { en: 'Hero image — desktop dark' },
+    heroDarkUrl: {
+      label: { en: 'Hero illustration — dark' },
       type: 'Text',
       section: 'settings',
       bindable: true,
-      defaultValue: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/Desktop-hero2-dark.png?_wwcv=1780894447042',
+      defaultValue: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/Illustration_HERO_Blanc_OrangeOK.png?_wwcv=1779460464091',
       /* wwEditor:start */
-      bindingValidation: { type: 'string', tooltip: 'Desktop hero deer illustration — dark theme.' },
+      bindingValidation: { type: 'string', tooltip: 'Illustration cerf transparent — thème sombre.' },
       /* wwEditor:end */
     },
 
-    heroDesktopLightUrl: {
-      label: { en: 'Hero image — desktop light' },
+    heroLightUrl: {
+      label: { en: 'Hero illustration — light' },
       type: 'Text',
       section: 'settings',
       bindable: true,
-      defaultValue: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/Desktop-hero2-light.png?_wwcv=1780894447040',
+      defaultValue: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/Illustration_HERO_Noir_OrangeOK.png?_wwcv=1779461279453',
       /* wwEditor:start */
-      bindingValidation: { type: 'string', tooltip: 'Desktop hero deer illustration — light theme.' },
-      /* wwEditor:end */
-    },
-
-    heroMobileDarkUrl: {
-      label: { en: 'Hero image — mobile dark' },
-      type: 'Text',
-      section: 'settings',
-      bindable: true,
-      defaultValue: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/Mobile-hero2-dark.png?_wwcv=1780894447099',
-      /* wwEditor:start */
-      bindingValidation: { type: 'string', tooltip: 'Mobile hero deer illustration — dark theme.' },
-      /* wwEditor:end */
-    },
-
-    heroMobileLightUrl: {
-      label: { en: 'Hero image — mobile light' },
-      type: 'Text',
-      section: 'settings',
-      bindable: true,
-      defaultValue: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/Mobile-hero2-dark.png?_wwcv=1780894447099',
-      /* wwEditor:start */
-      bindingValidation: { type: 'string', tooltip: 'Mobile hero illustration — light theme. NOTE: same URL as dark for now; replace when light mobile asset is available.' },
-      propertyHelp: '⚠ Light mobile asset not yet available — using dark mobile as fallback.',
+      bindingValidation: { type: 'string', tooltip: 'Illustration cerf transparent — thème clair.' },
       /* wwEditor:end */
     },
 
@@ -212,62 +161,62 @@ export default {
       bindable: true,
       defaultValue: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/iris-avatar_1.png?_wwcv=1779660586361',
       /* wwEditor:start */
-      bindingValidation: { type: 'string', tooltip: 'IRIS avatar displayed in the primary CTA button.' },
+      bindingValidation: { type: 'string', tooltip: 'Avatar IRIS dans le bouton CTA primaire.' },
       /* wwEditor:end */
     },
 
     // ── Assets — story ────────────────────────────────────────────────────────
     storyImage1DarkUrl: {
-      label: { en: 'Story illustration 1 — dark' },
+      label: { en: 'Story 1 — dark' },
       type: 'Text',
       section: 'settings',
       bindable: true,
       defaultValue: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/Illustration_details_Blanc_OrangeOK.png?_wwcv=1779460464079',
     },
     storyImage1LightUrl: {
-      label: { en: 'Story illustration 1 — light' },
+      label: { en: 'Story 1 — light' },
       type: 'Text',
       section: 'settings',
       bindable: true,
       defaultValue: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/Illustration_details_Blanc_OrangeOK_1.png?_wwcv=1779461279458',
     },
     storyImage2DarkUrl: {
-      label: { en: 'Story illustration 2 — dark' },
+      label: { en: 'Story 2 — dark' },
       type: 'Text',
       section: 'settings',
       bindable: true,
       defaultValue: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/Illustration_details2_Blanc_OrangeOK.png?_wwcv=1779460464077',
     },
     storyImage2LightUrl: {
-      label: { en: 'Story illustration 2 — light' },
+      label: { en: 'Story 2 — light' },
       type: 'Text',
       section: 'settings',
       bindable: true,
       defaultValue: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/Illustration_details2_Noir_OrangeOK.png?_wwcv=1779461279453',
     },
     storyImage3DarkUrl: {
-      label: { en: 'Story illustration 3 — dark' },
+      label: { en: 'Story 3 — dark' },
       type: 'Text',
       section: 'settings',
       bindable: true,
       defaultValue: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/Illustration_details3_Blanc_OrangeOK.png?_wwcv=1779460464088',
     },
     storyImage3LightUrl: {
-      label: { en: 'Story illustration 3 — light' },
+      label: { en: 'Story 3 — light' },
       type: 'Text',
       section: 'settings',
       bindable: true,
       defaultValue: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/Illustration_details3_Noir_OrangeOK.png?_wwcv=1779461279410',
     },
     storyImage4DarkUrl: {
-      label: { en: 'Story illustration 4 — dark' },
+      label: { en: 'Story 4 — dark' },
       type: 'Text',
       section: 'settings',
       bindable: true,
       defaultValue: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/Illustration_details4_Blanc_OrangeOK.png?_wwcv=1779460464089',
     },
     storyImage4LightUrl: {
-      label: { en: 'Story illustration 4 — light' },
+      label: { en: 'Story 4 — light' },
       type: 'Text',
       section: 'settings',
       bindable: true,
@@ -276,12 +225,10 @@ export default {
   },
 
   triggerEvents: [
-    { name: 'compare-click',   label: { en: 'CTA — Commencer à comparer clicked' }, event: {} },
-    { name: 'explore-click',   label: { en: 'CTA — Explorer les placements clicked' }, event: {} },
-    { name: 'login-click',     label: { en: 'Header — login clicked' }, event: {} },
-    { name: 'account-click',   label: { en: 'Header — account clicked' }, event: {} },
-    { name: 'theme-toggle',    label: { en: 'Header — theme toggled' }, event: { isDarkMode: true } },
-    { name: 'hero-mounted',    label: { en: 'Hero — component mounted' }, event: {} },
-    { name: 'story-card-click',label: { en: 'Story — card clicked' }, event: { index: 0, title: '' } },
+    { name: 'compare-click',      label: { en: 'CTA — Commencer à comparer clicked' },     event: {} },
+    { name: 'explore-click',      label: { en: 'CTA — Explorer les placements clicked' },   event: {} },
+    { name: 'hero-mounted',       label: { en: 'Hero — composant monté' },                  event: {} },
+    { name: 'story-card-click',   label: { en: 'Story — card clicked' },                    event: { index: 0, title: '' } },
+    { name: 'concept-step-click', label: { en: 'Concept — step clicked' },                  event: { index: 0, step: '' } },
   ],
 }
