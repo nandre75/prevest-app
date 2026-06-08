@@ -222,6 +222,28 @@ export default {
       bindable: true,
       defaultValue: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/Illustration_details4_Noir_OrangeOK.png?_wwcv=1779461279413',
     },
+
+    showPopularComparisons: {
+      label: { en: 'Show "Popular Comparisons" section' },
+      type: 'OnOff',
+      section: 'settings',
+      bindable: true,
+      defaultValue: true,
+      /* wwEditor:start */
+      bindingValidation: { type: 'boolean', tooltip: 'Afficher la section "Comparatifs populaires".' },
+      /* wwEditor:end */
+    },
+
+    showTestimonials: {
+      label: { en: 'Show "Testimonials" section' },
+      type: 'OnOff',
+      section: 'settings',
+      bindable: true,
+      defaultValue: true,
+      /* wwEditor:start */
+      bindingValidation: { type: 'boolean', tooltip: 'Afficher la section "Témoignages d\'épargnants".' },
+      /* wwEditor:end */
+    },
   },
 
   triggerEvents: [

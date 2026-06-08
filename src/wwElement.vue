@@ -45,6 +45,16 @@
       v-if="showMofo"
       :is-dark="resolvedIsDark"
     />
+
+    <AppPopularComparisonsSection
+      v-if="showPopularComparisons"
+      :is-dark="resolvedIsDark"
+    />
+
+    <AppTestimonialsSection
+      v-if="showTestimonials"
+      :is-dark="resolvedIsDark"
+    />
   </div>
 </template>
 
@@ -55,6 +65,8 @@ import AppStorySection       from './components/AppStorySection.vue'
 import AppConceptSection     from './components/AppConceptSection.vue'
 import AppCompareWaysSection from './components/AppCompareWaysSection.vue'
 import AppMofoSection        from './components/AppMofoSection.vue'
+import AppPopularComparisonsSection from './components/AppPopularComparisonsSection.vue'
+import AppTestimonialsSection      from './components/AppTestimonialsSection.vue'
 
 const DEFAULT_ASSETS = {
   heroDark:   'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/Illustration_HERO_Blanc_OrangeOK.png?_wwcv=1779460464091',
@@ -76,7 +88,7 @@ function _getFrontDocument() {
 
 export default {
   name: 'PrevestApp',
-  components: { AppHeroSection, AppStorySection, AppConceptSection, AppCompareWaysSection, AppMofoSection },
+  components: { AppHeroSection, AppStorySection, AppConceptSection, AppCompareWaysSection, AppMofoSection, AppPopularComparisonsSection, AppTestimonialsSection },
 
   props: {
     uid:     { type: String, required: true },
@@ -123,6 +135,8 @@ export default {
     const showConcept      = computed(() => props.content?.showConcept      ?? true)
     const showCompareWays  = computed(() => props.content?.showCompareWays  ?? true)
     const showMofo         = computed(() => props.content?.showMofo         ?? true)
+    const showPopularComparisons = computed(() => props.content?.showPopularComparisons ?? true)
+    const showTestimonials       = computed(() => props.content?.showTestimonials       ?? true)
 
     // ── CTAs ──────────────────────────────────────────────────────────────
     const compareUrl = computed(() => props.content?.compareUrl ?? '/start')
@@ -151,7 +165,7 @@ export default {
 
     return {
       resolvedIsDark,
-      showHero, showStory, showConcept, showCompareWays, showMofo,
+      showHero, showStory, showConcept, showCompareWays, showMofo, showPopularComparisons, showTestimonials,
       compareUrl, exploreUrl,
       heroDarkUrl, heroLightUrl, irisAvatarUrl,
       storyImage1DarkUrl, storyImage1LightUrl,
