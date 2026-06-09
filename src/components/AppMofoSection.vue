@@ -283,6 +283,50 @@ export default {
   props: {
     isDark:      { type: Boolean, default: true },
     radarBadges: { type: Array,   default: () => [] },
+    // ── Flat badge props — BNP ─────────────────────────────────────────────
+    mofoBadgeBnpLabel:   { type: String,  default: 'BNP PARIBAS' },
+    mofoBadgeBnpLogoUrl: { type: String,  default: '' },
+    mofoBadgeBnpDisplay: { type: Boolean, default: true },
+    // ── Swiss Life ─────────────────────────────────────────────────────────
+    mofoBadgeSlLabel:    { type: String,  default: 'Swiss Life' },
+    mofoBadgeSlLogoUrl:  { type: String,  default: '' },
+    mofoBadgeSlDisplay:  { type: Boolean, default: true },
+    // ── CORUM ──────────────────────────────────────────────────────────────
+    mofoBadgeCorumLabel:   { type: String,  default: 'CORUM' },
+    mofoBadgeCorumLogoUrl: { type: String,  default: '' },
+    mofoBadgeCorumDisplay: { type: Boolean, default: true },
+    // ── Inter Gestion ──────────────────────────────────────────────────────
+    mofoBadgeIgLabel:   { type: String,  default: 'Inter Gestion' },
+    mofoBadgeIgLogoUrl: { type: String,  default: '' },
+    mofoBadgeIgDisplay: { type: Boolean, default: true },
+    // ── Caisse d'Épargne ───────────────────────────────────────────────────
+    mofoBadgeCeLabel:   { type: String,  default: "Caisse d'Épargne" },
+    mofoBadgeCeLogoUrl: { type: String,  default: '' },
+    mofoBadgeCeDisplay: { type: Boolean, default: true },
+    // ── PERIAL ─────────────────────────────────────────────────────────────
+    mofoBadgePerialLabel:   { type: String,  default: 'PERIAL' },
+    mofoBadgePerialLogoUrl: { type: String,  default: '' },
+    mofoBadgePerialDisplay: { type: Boolean, default: true },
+    // ── ODDO BHF ───────────────────────────────────────────────────────────
+    mofoBadgeOddoLabel:   { type: String,  default: 'ODDO BHF' },
+    mofoBadgeOddoLogoUrl: { type: String,  default: '' },
+    mofoBadgeOddoDisplay: { type: Boolean, default: true },
+    // ── Amundi ─────────────────────────────────────────────────────────────
+    mofoBadgeAmundiLabel:   { type: String,  default: 'Amundi' },
+    mofoBadgeAmundiLogoUrl: { type: String,  default: '' },
+    mofoBadgeAmundiDisplay: { type: Boolean, default: true },
+    // ── AXA ────────────────────────────────────────────────────────────────
+    mofoBadgeAxaLabel:   { type: String,  default: 'AXA' },
+    mofoBadgeAxaLogoUrl: { type: String,  default: '' },
+    mofoBadgeAxaDisplay: { type: Boolean, default: true },
+    // ── La Française ───────────────────────────────────────────────────────
+    mofoBadgeLfLabel:   { type: String,  default: 'La Française' },
+    mofoBadgeLfLogoUrl: { type: String,  default: '' },
+    mofoBadgeLfDisplay: { type: Boolean, default: true },
+    // ── Société Générale ───────────────────────────────────────────────────
+    mofoBadgeSgLabel:   { type: String,  default: 'Société Générale' },
+    mofoBadgeSgLogoUrl: { type: String,  default: '' },
+    mofoBadgeSgDisplay: { type: Boolean, default: true },
   },
 
   setup(props) {
@@ -298,9 +342,19 @@ export default {
     let _startMs  = null
 
     // ── Badges ────────────────────────────────────────────────────────────
+    // Priority: radarBadges array prop (WeWeb binding) > flat badge props > DEFAULT_BADGES
     const badges = computed(() => {
       const ov = props.radarBadges
-      return (Array.isArray(ov) && ov.length > 0) ? ov : DEFAULT_BADGES
+      if (Array.isArray(ov) && ov.length > 0) return ov
+
+      // Build from flat props, then filter display === false
+      return DEFAULT_BADGES.map(b => {
+        const key = b.id.charAt(0).toUpperCase() + b.id.slice(1)
+        const label   = props[`mofoBadge${key}Label`]   ?? b.label
+        const logoUrl = props[`mofoBadge${key}LogoUrl`] ?? b.logoUrl
+        const display = props[`mofoBadge${key}Display`] ?? true
+        return { ...b, label, logoUrl, display }
+      }).filter(b => b.display !== false)
     })
 
     const processedBadges = computed(() => {

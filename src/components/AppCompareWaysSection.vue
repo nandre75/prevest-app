@@ -42,6 +42,12 @@
         <article
           class="cw__card cw__card--iris cw__reveal cw__reveal--c0"
           :class="{ 'is-visible': cardsVisible }"
+          tabindex="0"
+          role="button"
+          aria-label="Commencer avec IRIS"
+          @click="handleCompareClick"
+          @keydown.enter.prevent="handleCompareClick"
+          @keydown.space.prevent="handleCompareClick"
         >
           <!-- Top label + recommended badge -->
           <header class="cw__card-top">
@@ -82,7 +88,7 @@
           <button
             type="button"
             class="cw__cta cw__cta--primary"
-            @click="$emit('compare-click')"
+            @click.stop="handleCompareClick"
           >
             <span>Commencer avec IRIS</span>
             <span class="cw__cta-arrow" aria-hidden="true">→</span>
@@ -93,6 +99,12 @@
         <article
           class="cw__card cw__card--search cw__reveal cw__reveal--c1"
           :class="{ 'is-visible': cardsVisible }"
+          tabindex="0"
+          role="button"
+          aria-label="Explorer les placements"
+          @click="handleExploreClick"
+          @keydown.enter.prevent="handleExploreClick"
+          @keydown.space.prevent="handleExploreClick"
         >
           <!-- Top label -->
           <header class="cw__card-top">
@@ -138,7 +150,7 @@
           <button
             type="button"
             class="cw__cta cw__cta--secondary"
-            @click="$emit('explore-click')"
+            @click.stop="handleExploreClick"
           >
             <span>Explorer les placements</span>
             <span class="cw__cta-arrow" aria-hidden="true">→</span>
@@ -178,11 +190,13 @@ export default {
   props: {
     isDark:        { type: Boolean, default: true },
     irisAvatarUrl: { type: String,  default: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/iris-avatar_1.png?_wwcv=1779660586361' },
+    compareUrl:    { type: String,  default: '/start/' },
+    exploreUrl:    { type: String,  default: '' },
   },
 
   emits: ['compare-click', 'explore-click'],
 
-  setup(props) {
+  setup(props, { emit }) {
     const reducedMotion = ref(false)
     const headerRef     = ref(null)
     const cardsRef      = ref(null)
@@ -223,6 +237,18 @@ export default {
       try { _ioH?.disconnect(); _ioC?.disconnect() } catch { /* noop */ }
     })
 
+    function handleCompareClick() {
+      emit('compare-click')
+      try { _getWin().location.href = props.compareUrl || '/start/' } catch { /* noop */ }
+    }
+
+    function handleExploreClick() {
+      emit('explore-click', { source: 'compare_ways_free_search', target: 'pcs_placements' })
+      if (props.exploreUrl) {
+        try { _getWin().location.href = props.exploreUrl } catch { /* noop */ }
+      }
+    }
+
     return {
       IRIS_FEATURES,
       SEARCH_FEATURES,
@@ -231,6 +257,8 @@ export default {
       cardsRef,
       headerVisible,
       cardsVisible,
+      handleCompareClick,
+      handleExploreClick,
     }
   },
 }
@@ -343,12 +371,17 @@ export default {
 
 /* ── Card base ───────────────────────────────────────────────────────────── */
 .cw__card {
+  cursor: pointer;
   display: flex; flex-direction: column;
   border-radius: 24px; padding: 28px 24px 28px;
   transition:
     box-shadow 0.28s ease,
     border-color 0.28s ease,
     transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.cw__card:focus-visible {
+  outline: 2px solid rgba(231, 138, 46, 0.85);
+  outline-offset: 3px;
 }
 @media (min-width: 1024px) { .cw__card { flex: 1; } }
 

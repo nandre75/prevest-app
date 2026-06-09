@@ -37,6 +37,8 @@
       v-if="showCompareWays"
       :is-dark="resolvedIsDark"
       :iris-avatar-url="irisAvatarUrl"
+      :compare-url="compareUrl"
+      :explore-url="exploreUrl"
       @compare-click="onCompareClick"
       @explore-click="onExploreClick"
     />
@@ -44,6 +46,7 @@
     <AppMofoSection
       v-if="showMofo"
       :is-dark="resolvedIsDark"
+      v-bind="mofoBadgeProps"
     />
 
     <AppPopularComparisonsSection
@@ -152,8 +155,33 @@ export default {
     const mobileAppScreenshotUrl = computed(() => props.content?.mobileAppScreenshotUrl ?? '')
 
     // ── CTAs ──────────────────────────────────────────────────────────────
-    const compareUrl = computed(() => props.content?.compareUrl ?? '/start')
+    const compareUrl = computed(() => props.content?.compareUrl ?? '/start/')
     const exploreUrl = computed(() => props.content?.exploreUrl ?? '#placements')
+
+    // ── MOFO badge flat props (forwarded as v-bind) ───────────────────────
+    const MOFO_BADGE_KEYS = [
+      ['Bnp',    'BNP PARIBAS'],
+      ['Sl',     'Swiss Life'],
+      ['Corum',  'CORUM'],
+      ['Ig',     'Inter Gestion'],
+      ['Ce',     "Caisse d'Épargne"],
+      ['Perial', 'PERIAL'],
+      ['Oddo',   'ODDO BHF'],
+      ['Amundi', 'Amundi'],
+      ['Axa',    'AXA'],
+      ['Lf',     'La Française'],
+      ['Sg',     'Société Générale'],
+    ]
+    const mofoBadgeProps = computed(() => {
+      const out = {}
+      for (const [key, defaultLabel] of MOFO_BADGE_KEYS) {
+        const lk = `mofoBadge${key}`
+        out[`mofoBadge${key}Label`]   = props.content?.[`${lk}Label`]   ?? defaultLabel
+        out[`mofoBadge${key}LogoUrl`] = props.content?.[`${lk}LogoUrl`] ?? ''
+        out[`mofoBadge${key}Display`] = props.content?.[`${lk}Display`] ?? true
+      }
+      return out
+    })
 
     // ── Assets ────────────────────────────────────────────────────────────
     const heroDarkUrl  = computed(() => props.content?.heroDarkUrl  || DEFAULT_ASSETS.heroDark)
@@ -179,7 +207,7 @@ export default {
     return {
       resolvedIsDark,
       showHero, showStory, showConcept, showCompareWays, showMofo, showPopularComparisons, showTestimonials, showMobileInstall,
-      compareUrl, exploreUrl,
+      compareUrl, exploreUrl, mofoBadgeProps,
       heroDarkUrl, heroLightUrl, irisAvatarUrl,
       storyImage1DarkUrl, storyImage1LightUrl,
       storyImage2DarkUrl, storyImage2LightUrl,
