@@ -695,7 +695,7 @@ export default {
   /* scales with radar: clamp ensures readable min/max in absolute pixels */
   width: clamp(72px, 13.5%, 96px);
   /* transform only — opacity/glow handled by .mofo__badge-card */
-  transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.80s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Inactive: centered on anchor, normal scale */
@@ -710,63 +710,68 @@ export default {
 .mofo__badge-card {
   width: 100%;
   display: flex; flex-direction: column; align-items: center;
-  gap: 5px; padding: 8px 6px 6px;
+  gap: 4px; padding: 6px 5px 5px;
   border-radius: 11px; border: 1px solid transparent;
   box-sizing: border-box;
   overflow: hidden;
-  /* 750ms smooth transitions — no snap between states */
+  /* 800ms smooth transitions — fluide et premium */
   transition:
-    background     0.75s cubic-bezier(0.16, 1, 0.3, 1),
-    border-color   0.75s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow     0.75s cubic-bezier(0.16, 1, 0.3, 1),
-    opacity        0.75s cubic-bezier(0.22, 1, 0.36, 1);  /* slightly longer opacity ease-out */
+    background     0.80s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color   0.80s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow     0.80s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity        0.80s cubic-bezier(0.22, 1, 0.36, 1),
+    filter         0.80s ease;
 }
 
-/* ── Inactive (default) — nearly invisible / dormant ── */
+/* ── Inactive (default) — discret mais perceptible ── */
+/* opacity ~0.35 : badge visible, clairement secondaire ;
+   logo et label en héritent via opacité du conteneur */
 .mofo--dark  .mofo__badge .mofo__badge-card {
-  background:   rgba(11,16,32,0.70);
-  border-color: rgba(255,255,255,0.05);
-  opacity: 0.18;
+  background:   rgba(11,16,32,0.72);
+  border-color: rgba(255,255,255,0.06);
+  opacity: 0.35;
 }
 .mofo--light .mofo__badge .mofo__badge-card {
-  background:   rgba(215,220,232,0.50);
-  border-color: rgba(11,16,32,0.05);
-  opacity: 0.20;
+  background:   rgba(215,220,232,0.55);
+  border-color: rgba(11,16,32,0.07);
+  opacity: 0.38;
 }
 
-/* ── Active (in beam) — clearly lit up / above beam ── */
+/* ── Active (in beam) — clairement révélé, au-dessus du faisceau ── */
 .mofo--dark  .mofo__badge--active .mofo__badge-card {
-  background:   rgba(14,20,38,0.92);   /* solid-ish so beam doesn't bleed through */
-  border-color: rgba(231,138,46,0.82);
+  background:   rgba(14,20,38,0.94);
+  border-color: rgba(231,138,46,0.75);
   box-shadow:
-    0 0 0 1px rgba(231,138,46,0.38),
-    0 6px 28px rgba(231,138,46,0.50),
-    inset 0 1px 0 rgba(255,255,255,0.08);
+    0 0 0 1.5px rgba(231,138,46,0.48),
+    0 4px 18px  rgba(231,138,46,0.55),
+    0 8px 32px  rgba(231,138,46,0.28),
+    inset 0 1px 0 rgba(255,255,255,0.10);
   opacity: 1;
 }
 .mofo--light .mofo__badge--active .mofo__badge-card {
   background:   rgba(255,255,255,0.98);
-  border-color: rgba(231,138,46,0.65);
+  border-color: rgba(231,138,46,0.62);
   box-shadow:
-    0 0 0 1px rgba(231,138,46,0.22),
-    0 4px 20px rgba(231,138,46,0.30);
+    0 0 0 1px rgba(231,138,46,0.28),
+    0 4px 16px rgba(231,138,46,0.32),
+    0 8px 24px rgba(231,138,46,0.16);
   opacity: 1;
 }
 
-/* ── Logo area ── */
+/* ── Logo area — agrandi pour une meilleure lisibilité ── */
 .mofo__badge-logo-area {
-  width: 100%; height: 28px;
+  width: 100%; height: 34px;
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
 }
 .mofo__badge-img {
-  max-width: 100%; max-height: 26px;
+  max-width: 84%; max-height: 30px;
   object-fit: contain; display: block;
 }
 
 /* Placeholder: colored brand block (mimics a real logo card) */
 .mofo__badge-logo-block {
-  width: 40px; height: 24px;
+  width: 42px; height: 26px;
   border-radius: 5px;
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
@@ -782,15 +787,15 @@ export default {
 
 /* ── Brand name label ── */
 .mofo__badge-name {
-  font-size: 8px; font-weight: 700;
+  font-size: 8.5px; font-weight: 700;
   letter-spacing: 0.03em; text-align: center;
-  line-height: 1.25; white-space: pre-line;
+  line-height: 1.2; white-space: pre-line;
   max-width: 100%; overflow: hidden;
 }
-.mofo--dark  .mofo__badge .mofo__badge-name         { color: rgba(148,163,184,0.60); }
-.mofo--dark  .mofo__badge--active .mofo__badge-name { color: rgba(248,250,252,0.95); }
-.mofo--light .mofo__badge .mofo__badge-name         { color: rgba(71,85,105,0.60); }
-.mofo--light .mofo__badge--active .mofo__badge-name { color: rgba(11,16,32,0.92); }
+.mofo--dark  .mofo__badge .mofo__badge-name         { color: rgba(148,163,184,0.70); }
+.mofo--dark  .mofo__badge--active .mofo__badge-name { color: rgba(248,250,252,0.96); }
+.mofo--light .mofo__badge .mofo__badge-name         { color: rgba(71,85,105,0.70); }
+.mofo--light .mofo__badge--active .mofo__badge-name { color: rgba(11,16,32,0.93); }
 
 @media (prefers-reduced-motion: reduce) {
   .mofo__badge,
@@ -798,10 +803,10 @@ export default {
     transition: none !important;
     transform: translate(-50%, -50%) !important;
   }
-  /* Keep badges readable but all at full opacity when motion is reduced */
+  /* Badges lisibles à opacity stable quand le mouvement est réduit */
   .mofo--dark  .mofo__badge .mofo__badge-card,
   .mofo--light .mofo__badge .mofo__badge-card {
-    opacity: 0.55 !important;
+    opacity: 0.60 !important;
   }
 }
 
