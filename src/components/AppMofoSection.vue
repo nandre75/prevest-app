@@ -1,5 +1,7 @@
 <template>
   <section
+    id="prevest-section-mofo"
+    data-prevest-section="mofo"
     class="mofo"
     :class="isDark ? 'mofo--dark' : 'mofo--light'"
   >
@@ -252,17 +254,17 @@ const SWEEP_ARC = 115    // degrees of the active beam sector
 // radius: fraction of radar radius; max 0.76 keeps badge inside the circle
 // brandColor: placeholder accent color (used until real logo URLs are provided)
 const DEFAULT_BADGES = [
-  { id: 'bnp',    label: 'BNP PARIBAS',     labelShort: 'BNP\nPARIBAS',      angle: 355, radius: 0.57, initials: 'BNP',  brandColor: '#00966C', logoUrl: '' },
-  { id: 'sl',     label: 'Swiss Life',       labelShort: 'Swiss Life',         angle:  40, radius: 0.63, initials: 'SL',   brandColor: '#D40D14', logoUrl: '' },
-  { id: 'corum',  label: 'CORUM',            labelShort: 'CORUM',              angle:  63, radius: 0.74, initials: 'CR',   brandColor: '#1C3F5E', logoUrl: '' },
-  { id: 'ig',     label: 'Inter Gestion',    labelShort: 'Inter Gestion\nREIM', angle: 87, radius: 0.69, initials: 'IG',   brandColor: '#2D4E8C', logoUrl: '' },
-  { id: 'ce',     label: "Caisse d'Épargne", labelShort: "CAISSE\nD'ÉPARGNE",  angle: 116, radius: 0.66, initials: 'CE',   brandColor: '#00843D', logoUrl: '' },
+  { id: 'bnp',    label: 'BNP PARIBAS',     labelShort: 'BNP\nPARIBAS',      angle: 355, radius: 0.57, initials: 'BNP',  brandColor: '#00966C', logoUrl: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/BNP_1.png?_wwcv=1774951534740' },
+  { id: 'sl',     label: 'Swiss Life',       labelShort: 'Swiss Life',         angle:  40, radius: 0.63, initials: 'SL',   brandColor: '#D40D14', logoUrl: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/Swiss_life.png?_wwcv=1774951534678' },
+  { id: 'corum',  label: 'CORUM',            labelShort: 'CORUM',              angle:  63, radius: 0.74, initials: 'CR',   brandColor: '#1C3F5E', logoUrl: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/CORUM.png?_wwcv=1774951534639' },
+  { id: 'ig',     label: 'Inter Gestion',    labelShort: 'Inter Gestion\nREIM', angle: 87, radius: 0.69, initials: 'IG',   brandColor: '#2D4E8C', logoUrl: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/Inter_gestion_reim.png?_wwcv=1774951534733' },
+  { id: 'ce',     label: "Caisse d'Épargne", labelShort: "CAISSE\nD'ÉPARGNE",  angle: 116, radius: 0.66, initials: 'CE',   brandColor: '#00843D', logoUrl: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/caisse_epargne.jpeg?_wwcv=1765979752372' },
   { id: 'perial', label: 'PERIAL',           labelShort: 'PERIAL',             angle: 138, radius: 0.70, initials: 'PRL',  brandColor: '#7B5C1E', logoUrl: '' },
-  { id: 'oddo',   label: 'ODDO BHF',         labelShort: 'ODDO BHF',           angle: 162, radius: 0.59, initials: 'OB',   brandColor: '#003870', logoUrl: '' },
-  { id: 'amundi', label: 'Amundi',           labelShort: 'Amundi',             angle: 192, radius: 0.63, initials: 'AM',   brandColor: '#005B35', logoUrl: '' },
-  { id: 'axa',    label: 'AXA',              labelShort: 'AXA',                angle: 221, radius: 0.59, initials: 'AXA',  brandColor: '#00008F', logoUrl: '' },
-  { id: 'lf',     label: 'La Française',     labelShort: 'LA\nFRANÇAISE',      angle: 262, radius: 0.64, initials: 'LF',   brandColor: '#1B3F7C', logoUrl: '' },
-  { id: 'sg',     label: 'Société Générale', labelShort: 'SOCIÉTÉ\nGÉNÉRALE',  angle: 308, radius: 0.61, initials: 'SG',   brandColor: '#E4001B', logoUrl: '' },
+  { id: 'oddo',   label: 'ODDO BHF',         labelShort: 'ODDO BHF',           angle: 162, radius: 0.59, initials: 'OB',   brandColor: '#003870', logoUrl: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/CCF-white.png?_wwcv=1765979497230' },
+  { id: 'amundi', label: 'Amundi',           labelShort: 'Amundi',             angle: 192, radius: 0.63, initials: 'AM',   brandColor: '#005B35', logoUrl: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/Amundi.png?_wwcv=1774951534711' },
+  { id: 'axa',    label: 'AXA',              labelShort: 'AXA',                angle: 221, radius: 0.59, initials: 'AXA',  brandColor: '#00008F', logoUrl: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/axa.png?_wwcv=1765979925045' },
+  { id: 'lf',     label: 'La Française',     labelShort: 'LA\nFRANÇAISE',      angle: 262, radius: 0.64, initials: 'LF',   brandColor: '#1B3F7C', logoUrl: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/La_franc%CC%A7aise.png?_wwcv=1774951534688' },
+  { id: 'sg',     label: 'Société Générale', labelShort: 'SOCIÉTÉ\nGÉNÉRALE',  angle: 308, radius: 0.61, initials: 'SG',   brandColor: '#E4001B', logoUrl: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/SG.png?_wwcv=1774951534641' },
 ]
 
 function getBadgePosStyle(angle, radius) {
@@ -285,47 +287,47 @@ export default {
     radarBadges: { type: Array,   default: () => [] },
     // ── Flat badge props — BNP ─────────────────────────────────────────────
     mofoBadgeBnpLabel:   { type: String,  default: 'BNP PARIBAS' },
-    mofoBadgeBnpLogoUrl: { type: String,  default: '' },
+    mofoBadgeBnpLogoUrl: { type: String,  default: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/BNP_1.png?_wwcv=1774951534740' },
     mofoBadgeBnpDisplay: { type: Boolean, default: true },
     // ── Swiss Life ─────────────────────────────────────────────────────────
     mofoBadgeSlLabel:    { type: String,  default: 'Swiss Life' },
-    mofoBadgeSlLogoUrl:  { type: String,  default: '' },
+    mofoBadgeSlLogoUrl:  { type: String,  default: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/Swiss_life.png?_wwcv=1774951534678' },
     mofoBadgeSlDisplay:  { type: Boolean, default: true },
     // ── CORUM ──────────────────────────────────────────────────────────────
     mofoBadgeCorumLabel:   { type: String,  default: 'CORUM' },
-    mofoBadgeCorumLogoUrl: { type: String,  default: '' },
+    mofoBadgeCorumLogoUrl: { type: String,  default: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/CORUM.png?_wwcv=1774951534639' },
     mofoBadgeCorumDisplay: { type: Boolean, default: true },
     // ── Inter Gestion ──────────────────────────────────────────────────────
     mofoBadgeIgLabel:   { type: String,  default: 'Inter Gestion' },
-    mofoBadgeIgLogoUrl: { type: String,  default: '' },
+    mofoBadgeIgLogoUrl: { type: String,  default: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/Inter_gestion_reim.png?_wwcv=1774951534733' },
     mofoBadgeIgDisplay: { type: Boolean, default: true },
     // ── Caisse d'Épargne ───────────────────────────────────────────────────
     mofoBadgeCeLabel:   { type: String,  default: "Caisse d'Épargne" },
-    mofoBadgeCeLogoUrl: { type: String,  default: '' },
+    mofoBadgeCeLogoUrl: { type: String,  default: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/caisse_epargne.jpeg?_wwcv=1765979752372' },
     mofoBadgeCeDisplay: { type: Boolean, default: true },
     // ── PERIAL ─────────────────────────────────────────────────────────────
     mofoBadgePerialLabel:   { type: String,  default: 'PERIAL' },
     mofoBadgePerialLogoUrl: { type: String,  default: '' },
-    mofoBadgePerialDisplay: { type: Boolean, default: true },
+    mofoBadgePerialDisplay: { type: Boolean, default: false },
     // ── ODDO BHF ───────────────────────────────────────────────────────────
     mofoBadgeOddoLabel:   { type: String,  default: 'ODDO BHF' },
-    mofoBadgeOddoLogoUrl: { type: String,  default: '' },
+    mofoBadgeOddoLogoUrl: { type: String,  default: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/CCF-white.png?_wwcv=1765979497230' },
     mofoBadgeOddoDisplay: { type: Boolean, default: true },
     // ── Amundi ─────────────────────────────────────────────────────────────
     mofoBadgeAmundiLabel:   { type: String,  default: 'Amundi' },
-    mofoBadgeAmundiLogoUrl: { type: String,  default: '' },
+    mofoBadgeAmundiLogoUrl: { type: String,  default: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/Amundi.png?_wwcv=1774951534711' },
     mofoBadgeAmundiDisplay: { type: Boolean, default: true },
     // ── AXA ────────────────────────────────────────────────────────────────
     mofoBadgeAxaLabel:   { type: String,  default: 'AXA' },
-    mofoBadgeAxaLogoUrl: { type: String,  default: '' },
+    mofoBadgeAxaLogoUrl: { type: String,  default: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/axa.png?_wwcv=1765979925045' },
     mofoBadgeAxaDisplay: { type: Boolean, default: true },
     // ── La Française ───────────────────────────────────────────────────────
     mofoBadgeLfLabel:   { type: String,  default: 'La Française' },
-    mofoBadgeLfLogoUrl: { type: String,  default: '' },
+    mofoBadgeLfLogoUrl: { type: String,  default: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/La_franc%CC%A7aise.png?_wwcv=1774951534688' },
     mofoBadgeLfDisplay: { type: Boolean, default: true },
     // ── Société Générale ───────────────────────────────────────────────────
     mofoBadgeSgLabel:   { type: String,  default: 'Société Générale' },
-    mofoBadgeSgLogoUrl: { type: String,  default: '' },
+    mofoBadgeSgLogoUrl: { type: String,  default: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/SG.png?_wwcv=1774951534641' },
     mofoBadgeSgDisplay: { type: Boolean, default: true },
   },
 

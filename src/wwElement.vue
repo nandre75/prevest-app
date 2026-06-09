@@ -159,26 +159,29 @@ export default {
     const exploreUrl = computed(() => props.content?.exploreUrl ?? '#placements')
 
     // ── MOFO badge flat props (forwarded as v-bind) ───────────────────────
-    const MOFO_BADGE_KEYS = [
-      ['Bnp',    'BNP PARIBAS'],
-      ['Sl',     'Swiss Life'],
-      ['Corum',  'CORUM'],
-      ['Ig',     'Inter Gestion'],
-      ['Ce',     "Caisse d'Épargne"],
-      ['Perial', 'PERIAL'],
-      ['Oddo',   'ODDO BHF'],
-      ['Amundi', 'Amundi'],
-      ['Axa',    'AXA'],
-      ['Lf',     'La Française'],
-      ['Sg',     'Société Générale'],
-    ]
+    const MOFO_BADGE_DEFAULTS = {
+      Bnp:    { label: 'BNP PARIBAS',       logoUrl: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/BNP_1.png?_wwcv=1774951534740',          display: true  },
+      Sl:     { label: 'Swiss Life',         logoUrl: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/Swiss_life.png?_wwcv=1774951534678',    display: true  },
+      Corum:  { label: 'CORUM',              logoUrl: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/CORUM.png?_wwcv=1774951534639',         display: true  },
+      Ig:     { label: 'Inter Gestion',      logoUrl: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/Inter_gestion_reim.png?_wwcv=1774951534733', display: true },
+      Ce:     { label: "Caisse d'Épargne",   logoUrl: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/caisse_epargne.jpeg?_wwcv=1765979752372', display: true },
+      Perial: { label: 'PERIAL',             logoUrl: '',                                                                                                                                display: false },
+      Oddo:   { label: 'ODDO BHF',           logoUrl: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/CCF-white.png?_wwcv=1765979497230',     display: true  },
+      Amundi: { label: 'Amundi',             logoUrl: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/Amundi.png?_wwcv=1774951534711',        display: true  },
+      Axa:    { label: 'AXA',                logoUrl: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/axa.png?_wwcv=1765979925045',           display: true  },
+      Lf:     { label: 'La Française',       logoUrl: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/La_franc%CC%A7aise.png?_wwcv=1774951534688', display: true },
+      Sg:     { label: 'Société Générale',   logoUrl: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/SG.png?_wwcv=1774951534641',           display: true  },
+    }
     const mofoBadgeProps = computed(() => {
       const out = {}
-      for (const [key, defaultLabel] of MOFO_BADGE_KEYS) {
+      for (const [key, defs] of Object.entries(MOFO_BADGE_DEFAULTS)) {
         const lk = `mofoBadge${key}`
-        out[`mofoBadge${key}Label`]   = props.content?.[`${lk}Label`]   ?? defaultLabel
-        out[`mofoBadge${key}LogoUrl`] = props.content?.[`${lk}LogoUrl`] ?? ''
-        out[`mofoBadge${key}Display`] = props.content?.[`${lk}Display`] ?? true
+        out[`mofoBadge${key}Label`]   = props.content?.[`${lk}Label`]?.trim()   || defs.label
+        // || so that empty string "" falls back to CDN default
+        out[`mofoBadge${key}LogoUrl`] = props.content?.[`${lk}LogoUrl`]?.trim() || defs.logoUrl
+        // null/undefined falls back to per-badge default; explicit false is respected
+        const d = props.content?.[`${lk}Display`]
+        out[`mofoBadge${key}Display`] = (d === null || d === undefined) ? defs.display : Boolean(d)
       }
       return out
     })

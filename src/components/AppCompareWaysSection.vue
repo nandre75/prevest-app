@@ -1,5 +1,7 @@
 <template>
   <section
+    id="prevest-section-compare"
+    data-prevest-section="compare"
     class="cw"
     :class="isDark ? 'cw--dark' : 'cw--light'"
   >

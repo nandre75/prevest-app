@@ -1,6 +1,9 @@
 <template>
   <!-- Desktop only — hidden entirely on mobile via CSS -->
-  <section class="mi" :class="isDark ? 'mi--dark' : 'mi--light'">
+  <section
+    id="prevest-section-mobile-install"
+    data-prevest-section="mobile-install"
+    class="mi" :class="isDark ? 'mi--dark' : 'mi--light'">
 
     <div class="mi__bg" aria-hidden="true">
       <div class="mi__bg-line" />

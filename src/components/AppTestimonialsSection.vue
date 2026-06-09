@@ -1,5 +1,8 @@
 <template>
-  <section class="tm" :class="isDark ? 'tm--dark' : 'tm--light'">
+  <section
+    id="prevest-section-testimonials"
+    data-prevest-section="testimonials"
+    class="tm" :class="isDark ? 'tm--dark' : 'tm--light'">
 
     <div class="tm__bg" aria-hidden="true">
       <div class="tm__bg-line" />

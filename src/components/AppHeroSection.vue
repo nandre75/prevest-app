@@ -1,5 +1,8 @@
 <template>
-  <section class="hero" :class="{ 'hero--dark': isDark, 'hero--light': !isDark }">
+  <section
+    id="prevest-section-hero"
+    data-prevest-section="hero"
+    class="hero" :class="{ 'hero--dark': isDark, 'hero--light': !isDark }">
 
     <!-- Atmospheric glow — pure radial-gradient, zero hard edges -->
     <div class="hero__glows" aria-hidden="true" />

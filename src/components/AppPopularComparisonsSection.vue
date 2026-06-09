@@ -1,5 +1,7 @@
 <template>
   <section
+    id="prevest-section-popular-comparisons"
+    data-prevest-section="popular-comparisons"
     class="pc"
     :class="isDark ? 'pc--dark' : 'pc--light'"
   >

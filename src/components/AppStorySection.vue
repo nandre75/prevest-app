@@ -1,5 +1,8 @@
 <template>
-  <section class="story" :class="{ 'story--dark': isDark, 'story--light': !isDark }">
+  <section
+    id="prevest-section-story"
+    data-prevest-section="story"
+    class="story" :class="{ 'story--dark': isDark, 'story--light': !isDark }">
 
     <!-- Top glow separator -->
     <div class="story__bg" aria-hidden="true">

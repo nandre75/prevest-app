@@ -1,5 +1,7 @@
 <template>
   <section
+    id="prevest-section-concept"
+    data-prevest-section="concept"
     class="concept"
     :class="isDark ? 'concept--dark' : 'concept--light'"
   >

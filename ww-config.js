@@ -112,57 +112,57 @@ export default {
 
     // BNP Paribas
     mofoBadgeBnpLabel:   { label: { en: 'Badge BNP — Libellé' },   type: 'Text',  section: 'settings', bindable: true, defaultValue: 'BNP PARIBAS',      /* wwEditor:start */ bindingValidation: { type: 'string' }, /* wwEditor:end */ },
-    mofoBadgeBnpLogoUrl: { label: { en: 'Badge BNP — Logo URL' },  type: 'Text',  section: 'settings', bindable: true, defaultValue: '',                  /* wwEditor:start */ bindingValidation: { type: 'string', tooltip: 'URL image PNG/SVG du logo BNP.' }, /* wwEditor:end */ },
+    mofoBadgeBnpLogoUrl: { label: { en: 'Badge BNP — Logo URL' },  type: 'Text',  section: 'settings', bindable: true, defaultValue: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/BNP_1.png?_wwcv=1774951534740',                  /* wwEditor:start */ bindingValidation: { type: 'string', tooltip: 'URL image PNG/SVG du logo BNP.' }, /* wwEditor:end */ },
     mofoBadgeBnpDisplay: { label: { en: 'Badge BNP — Afficher' },  type: 'OnOff', section: 'settings', bindable: true, defaultValue: true,                /* wwEditor:start */ bindingValidation: { type: 'boolean' }, /* wwEditor:end */ },
 
     // Swiss Life
     mofoBadgeSlLabel:    { label: { en: 'Badge Swiss Life — Libellé' },   type: 'Text',  section: 'settings', bindable: true, defaultValue: 'Swiss Life', /* wwEditor:start */ bindingValidation: { type: 'string' }, /* wwEditor:end */ },
-    mofoBadgeSlLogoUrl:  { label: { en: 'Badge Swiss Life — Logo URL' },  type: 'Text',  section: 'settings', bindable: true, defaultValue: '',            /* wwEditor:start */ bindingValidation: { type: 'string' }, /* wwEditor:end */ },
+    mofoBadgeSlLogoUrl:  { label: { en: 'Badge Swiss Life — Logo URL' },  type: 'Text',  section: 'settings', bindable: true, defaultValue: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/Swiss_life.png?_wwcv=1774951534678',            /* wwEditor:start */ bindingValidation: { type: 'string' }, /* wwEditor:end */ },
     mofoBadgeSlDisplay:  { label: { en: 'Badge Swiss Life — Afficher' },  type: 'OnOff', section: 'settings', bindable: true, defaultValue: true,          /* wwEditor:start */ bindingValidation: { type: 'boolean' }, /* wwEditor:end */ },
 
     // CORUM
     mofoBadgeCorumLabel:   { label: { en: 'Badge CORUM — Libellé' },   type: 'Text',  section: 'settings', bindable: true, defaultValue: 'CORUM', /* wwEditor:start */ bindingValidation: { type: 'string' }, /* wwEditor:end */ },
-    mofoBadgeCorumLogoUrl: { label: { en: 'Badge CORUM — Logo URL' },  type: 'Text',  section: 'settings', bindable: true, defaultValue: '',       /* wwEditor:start */ bindingValidation: { type: 'string' }, /* wwEditor:end */ },
+    mofoBadgeCorumLogoUrl: { label: { en: 'Badge CORUM — Logo URL' },  type: 'Text',  section: 'settings', bindable: true, defaultValue: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/CORUM.png?_wwcv=1774951534639',       /* wwEditor:start */ bindingValidation: { type: 'string' }, /* wwEditor:end */ },
     mofoBadgeCorumDisplay: { label: { en: 'Badge CORUM — Afficher' },  type: 'OnOff', section: 'settings', bindable: true, defaultValue: true,     /* wwEditor:start */ bindingValidation: { type: 'boolean' }, /* wwEditor:end */ },
 
     // Inter Gestion
     mofoBadgeIgLabel:   { label: { en: 'Badge Inter Gestion — Libellé' },   type: 'Text',  section: 'settings', bindable: true, defaultValue: 'Inter Gestion', /* wwEditor:start */ bindingValidation: { type: 'string' }, /* wwEditor:end */ },
-    mofoBadgeIgLogoUrl: { label: { en: 'Badge Inter Gestion — Logo URL' },  type: 'Text',  section: 'settings', bindable: true, defaultValue: '',               /* wwEditor:start */ bindingValidation: { type: 'string' }, /* wwEditor:end */ },
+    mofoBadgeIgLogoUrl: { label: { en: 'Badge Inter Gestion — Logo URL' },  type: 'Text',  section: 'settings', bindable: true, defaultValue: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/Inter_gestion_reim.png?_wwcv=1774951534733',               /* wwEditor:start */ bindingValidation: { type: 'string' }, /* wwEditor:end */ },
     mofoBadgeIgDisplay: { label: { en: "Badge Inter Gestion — Afficher" },  type: 'OnOff', section: 'settings', bindable: true, defaultValue: true,             /* wwEditor:start */ bindingValidation: { type: 'boolean' }, /* wwEditor:end */ },
 
     // Caisse d'Épargne
     mofoBadgeCeLabel:   { label: { en: "Badge Caisse d'Épargne — Libellé" },  type: 'Text',  section: 'settings', bindable: true, defaultValue: "Caisse d'Épargne", /* wwEditor:start */ bindingValidation: { type: 'string' }, /* wwEditor:end */ },
-    mofoBadgeCeLogoUrl: { label: { en: "Badge Caisse d'Épargne — Logo URL" }, type: 'Text',  section: 'settings', bindable: true, defaultValue: '',                  /* wwEditor:start */ bindingValidation: { type: 'string' }, /* wwEditor:end */ },
+    mofoBadgeCeLogoUrl: { label: { en: "Badge Caisse d'Épargne — Logo URL" }, type: 'Text',  section: 'settings', bindable: true, defaultValue: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/caisse_epargne.jpeg?_wwcv=1765979752372',                  /* wwEditor:start */ bindingValidation: { type: 'string' }, /* wwEditor:end */ },
     mofoBadgeCeDisplay: { label: { en: "Badge Caisse d'Épargne — Afficher" }, type: 'OnOff', section: 'settings', bindable: true, defaultValue: true,                /* wwEditor:start */ bindingValidation: { type: 'boolean' }, /* wwEditor:end */ },
 
     // PERIAL
     mofoBadgePerialLabel:   { label: { en: 'Badge PERIAL — Libellé' },   type: 'Text',  section: 'settings', bindable: true, defaultValue: 'PERIAL', /* wwEditor:start */ bindingValidation: { type: 'string' }, /* wwEditor:end */ },
     mofoBadgePerialLogoUrl: { label: { en: 'Badge PERIAL — Logo URL' },  type: 'Text',  section: 'settings', bindable: true, defaultValue: '',        /* wwEditor:start */ bindingValidation: { type: 'string' }, /* wwEditor:end */ },
-    mofoBadgePerialDisplay: { label: { en: 'Badge PERIAL — Afficher' },  type: 'OnOff', section: 'settings', bindable: true, defaultValue: true,      /* wwEditor:start */ bindingValidation: { type: 'boolean' }, /* wwEditor:end */ },
+    mofoBadgePerialDisplay: { label: { en: 'Badge PERIAL — Afficher' },  type: 'OnOff', section: 'settings', bindable: true, defaultValue: false,     /* wwEditor:start */ bindingValidation: { type: 'boolean' }, /* wwEditor:end */ },
 
     // ODDO BHF
     mofoBadgeOddoLabel:   { label: { en: 'Badge ODDO BHF — Libellé' },   type: 'Text',  section: 'settings', bindable: true, defaultValue: 'ODDO BHF', /* wwEditor:start */ bindingValidation: { type: 'string' }, /* wwEditor:end */ },
-    mofoBadgeOddoLogoUrl: { label: { en: 'Badge ODDO BHF — Logo URL' },  type: 'Text',  section: 'settings', bindable: true, defaultValue: '',          /* wwEditor:start */ bindingValidation: { type: 'string' }, /* wwEditor:end */ },
+    mofoBadgeOddoLogoUrl: { label: { en: 'Badge ODDO BHF — Logo URL' },  type: 'Text',  section: 'settings', bindable: true, defaultValue: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/CCF-white.png?_wwcv=1765979497230',          /* wwEditor:start */ bindingValidation: { type: 'string' }, /* wwEditor:end */ },
     mofoBadgeOddoDisplay: { label: { en: 'Badge ODDO BHF — Afficher' },  type: 'OnOff', section: 'settings', bindable: true, defaultValue: true,        /* wwEditor:start */ bindingValidation: { type: 'boolean' }, /* wwEditor:end */ },
 
     // Amundi
     mofoBadgeAmundiLabel:   { label: { en: 'Badge Amundi — Libellé' },   type: 'Text',  section: 'settings', bindable: true, defaultValue: 'Amundi', /* wwEditor:start */ bindingValidation: { type: 'string' }, /* wwEditor:end */ },
-    mofoBadgeAmundiLogoUrl: { label: { en: 'Badge Amundi — Logo URL' },  type: 'Text',  section: 'settings', bindable: true, defaultValue: '',        /* wwEditor:start */ bindingValidation: { type: 'string' }, /* wwEditor:end */ },
+    mofoBadgeAmundiLogoUrl: { label: { en: 'Badge Amundi — Logo URL' },  type: 'Text',  section: 'settings', bindable: true, defaultValue: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/Amundi.png?_wwcv=1774951534711',        /* wwEditor:start */ bindingValidation: { type: 'string' }, /* wwEditor:end */ },
     mofoBadgeAmundiDisplay: { label: { en: 'Badge Amundi — Afficher' },  type: 'OnOff', section: 'settings', bindable: true, defaultValue: true,      /* wwEditor:start */ bindingValidation: { type: 'boolean' }, /* wwEditor:end */ },
 
     // AXA
     mofoBadgeAxaLabel:   { label: { en: 'Badge AXA — Libellé' },   type: 'Text',  section: 'settings', bindable: true, defaultValue: 'AXA', /* wwEditor:start */ bindingValidation: { type: 'string' }, /* wwEditor:end */ },
-    mofoBadgeAxaLogoUrl: { label: { en: 'Badge AXA — Logo URL' },  type: 'Text',  section: 'settings', bindable: true, defaultValue: '',     /* wwEditor:start */ bindingValidation: { type: 'string' }, /* wwEditor:end */ },
+    mofoBadgeAxaLogoUrl: { label: { en: 'Badge AXA — Logo URL' },  type: 'Text',  section: 'settings', bindable: true, defaultValue: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/axa.png?_wwcv=1765979925045',     /* wwEditor:start */ bindingValidation: { type: 'string' }, /* wwEditor:end */ },
     mofoBadgeAxaDisplay: { label: { en: 'Badge AXA — Afficher' },  type: 'OnOff', section: 'settings', bindable: true, defaultValue: true,   /* wwEditor:start */ bindingValidation: { type: 'boolean' }, /* wwEditor:end */ },
 
     // La Française
     mofoBadgeLfLabel:   { label: { en: 'Badge La Française — Libellé' },   type: 'Text',  section: 'settings', bindable: true, defaultValue: 'La Française', /* wwEditor:start */ bindingValidation: { type: 'string' }, /* wwEditor:end */ },
-    mofoBadgeLfLogoUrl: { label: { en: 'Badge La Française — Logo URL' },  type: 'Text',  section: 'settings', bindable: true, defaultValue: '',              /* wwEditor:start */ bindingValidation: { type: 'string' }, /* wwEditor:end */ },
+    mofoBadgeLfLogoUrl: { label: { en: 'Badge La Française — Logo URL' },  type: 'Text',  section: 'settings', bindable: true, defaultValue: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/La_franc%CC%A7aise.png?_wwcv=1774951534688',              /* wwEditor:start */ bindingValidation: { type: 'string' }, /* wwEditor:end */ },
     mofoBadgeLfDisplay: { label: { en: 'Badge La Française — Afficher' },  type: 'OnOff', section: 'settings', bindable: true, defaultValue: true,            /* wwEditor:start */ bindingValidation: { type: 'boolean' }, /* wwEditor:end */ },
 
     // Société Générale
     mofoBadgeSgLabel:   { label: { en: 'Badge Société Générale — Libellé' },   type: 'Text',  section: 'settings', bindable: true, defaultValue: 'Société Générale', /* wwEditor:start */ bindingValidation: { type: 'string' }, /* wwEditor:end */ },
-    mofoBadgeSgLogoUrl: { label: { en: 'Badge Société Générale — Logo URL' },  type: 'Text',  section: 'settings', bindable: true, defaultValue: '',                  /* wwEditor:start */ bindingValidation: { type: 'string' }, /* wwEditor:end */ },
+    mofoBadgeSgLogoUrl: { label: { en: 'Badge Société Générale — Logo URL' },  type: 'Text',  section: 'settings', bindable: true, defaultValue: 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/SG.png?_wwcv=1774951534641',                  /* wwEditor:start */ bindingValidation: { type: 'string' }, /* wwEditor:end */ },
     mofoBadgeSgDisplay: { label: { en: 'Badge Société Générale — Afficher' },  type: 'OnOff', section: 'settings', bindable: true, defaultValue: true,                /* wwEditor:start */ bindingValidation: { type: 'boolean' }, /* wwEditor:end */ },
 
     // ── CTA URLs ──────────────────────────────────────────────────────────────
