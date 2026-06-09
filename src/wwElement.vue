@@ -55,6 +55,13 @@
       v-if="showTestimonials"
       :is-dark="resolvedIsDark"
     />
+
+    <AppMobileInstallSection
+      v-if="showMobileInstall"
+      :is-dark="resolvedIsDark"
+      :mobile-qr-code-url="mobileQrCodeUrl"
+      :mobile-app-screenshot-url="mobileAppScreenshotUrl"
+    />
   </div>
 </template>
 
@@ -67,6 +74,7 @@ import AppCompareWaysSection from './components/AppCompareWaysSection.vue'
 import AppMofoSection        from './components/AppMofoSection.vue'
 import AppPopularComparisonsSection from './components/AppPopularComparisonsSection.vue'
 import AppTestimonialsSection      from './components/AppTestimonialsSection.vue'
+import AppMobileInstallSection     from './components/AppMobileInstallSection.vue'
 
 const DEFAULT_ASSETS = {
   heroDark:   'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/Illustration_HERO_Blanc_OrangeOK.png?_wwcv=1779460464091',
@@ -88,7 +96,7 @@ function _getFrontDocument() {
 
 export default {
   name: 'PrevestApp',
-  components: { AppHeroSection, AppStorySection, AppConceptSection, AppCompareWaysSection, AppMofoSection, AppPopularComparisonsSection, AppTestimonialsSection },
+  components: { AppHeroSection, AppStorySection, AppConceptSection, AppCompareWaysSection, AppMofoSection, AppPopularComparisonsSection, AppTestimonialsSection, AppMobileInstallSection },
 
   props: {
     uid:     { type: String, required: true },
@@ -137,6 +145,11 @@ export default {
     const showMofo         = computed(() => props.content?.showMofo         ?? true)
     const showPopularComparisons = computed(() => props.content?.showPopularComparisons ?? true)
     const showTestimonials       = computed(() => props.content?.showTestimonials       ?? true)
+    const showMobileInstall      = computed(() => props.content?.showMobileInstall      ?? true)
+
+    // ── Mobile Install assets ─────────────────────────────────────────────
+    const mobileQrCodeUrl        = computed(() => props.content?.mobileQrCodeUrl        ?? '')
+    const mobileAppScreenshotUrl = computed(() => props.content?.mobileAppScreenshotUrl ?? '')
 
     // ── CTAs ──────────────────────────────────────────────────────────────
     const compareUrl = computed(() => props.content?.compareUrl ?? '/start')
@@ -165,13 +178,14 @@ export default {
 
     return {
       resolvedIsDark,
-      showHero, showStory, showConcept, showCompareWays, showMofo, showPopularComparisons, showTestimonials,
+      showHero, showStory, showConcept, showCompareWays, showMofo, showPopularComparisons, showTestimonials, showMobileInstall,
       compareUrl, exploreUrl,
       heroDarkUrl, heroLightUrl, irisAvatarUrl,
       storyImage1DarkUrl, storyImage1LightUrl,
       storyImage2DarkUrl, storyImage2LightUrl,
       storyImage3DarkUrl, storyImage3LightUrl,
       storyImage4DarkUrl, storyImage4LightUrl,
+      mobileQrCodeUrl, mobileAppScreenshotUrl,
       onCompareClick, onExploreClick, onHeroMounted, onStoryCardClick, onConceptStepClick,
     }
   },

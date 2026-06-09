@@ -244,6 +244,41 @@ export default {
       bindingValidation: { type: 'boolean', tooltip: 'Afficher la section "Témoignages d\'épargnants".' },
       /* wwEditor:end */
     },
+
+    showMobileInstall: {
+      label: { en: 'Show "Mobile App" section (desktop only)' },
+      type: 'OnOff',
+      section: 'settings',
+      bindable: true,
+      defaultValue: true,
+      /* wwEditor:start */
+      bindingValidation: { type: 'boolean', tooltip: 'Afficher la section "Application mobile" (desktop uniquement).' },
+      /* wwEditor:end */
+    },
+
+    mobileQrCodeUrl: {
+      label: { en: 'Mobile QR code image URL' },
+      type: 'Text',
+      section: 'settings',
+      bindable: true,
+      defaultValue: '',
+      /* wwEditor:start */
+      bindingValidation: { type: 'string', tooltip: 'URL de l\'image du QR code pointant vers l\'app PREVEST mobile. Laisser vide pour utiliser le placeholder SVG.' },
+      propertyHelp: 'Laissez vide pour afficher le QR code placeholder. Remplacez par l\'URL CDN finale du vrai QR code.',
+      /* wwEditor:end */
+    },
+
+    mobileAppScreenshotUrl: {
+      label: { en: 'Mobile app screenshot URL' },
+      type: 'Text',
+      section: 'settings',
+      bindable: true,
+      defaultValue: '',
+      /* wwEditor:start */
+      bindingValidation: { type: 'string', tooltip: 'URL du screenshot de l\'app PREVEST mobile à afficher dans le téléphone. Laisser vide pour utiliser le mockup CSS.' },
+      propertyHelp: 'Laissez vide pour afficher le mockup CSS. Remplacez par un screenshot réel de l\'application.',
+      /* wwEditor:end */
+    },
   },
 
   triggerEvents: [
