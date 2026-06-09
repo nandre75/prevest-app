@@ -362,17 +362,23 @@ export default {
 /* ── Desktop: extra breathing room between the main copy groups ──────────── */
 /* These margin-top values add on top of the flex gap (.hero__copy gap: 28px) */
 @media (min-width: 1024px) {
-  .hero__actions  { margin-top: 12px; }  /* sub → CTA  : 28 + 12 = 40px  */
-  .hero__trust    { margin-top:  8px; }  /* CTA → trust: 28 +  8 = 36px  */
+  .hero__actions  { margin-top: 16px; }  /* sub → CTA  : 28 + 16 = 44px  */
+  .hero__trust    { margin-top: 14px; }  /* CTA → trust: 28 + 14 = 42px  */
   .hero__benefits { margin-top: 10px; }  /* trust → args: 28 + 10 = 38px */
+}
+
+/* ── Mobile: compensate for avatar overflow (77px ring, 70px button → ~4px bleed each side) */
+@media (max-width: 1023px) {
+  .hero__actions { margin-top:  8px; }   /* sub → CTA  : 18 +  8 = 26px + breathing  */
+  .hero__trust   { margin-top: 10px; }   /* CTA → trust: 18 + 10 = 28px + breathing  */
 }
 
 /* Primary CTA */
 .hero__cta-primary {
   position: relative;
   display: flex; align-items: center; gap: 14px;
-  width: 100%;                  /* full width of copy column */
-  height: 64px; padding: 0 20px 0 9px;
+  width: 100%;
+  height: 70px; padding: 0 22px 0 0;
   border-radius: 999px; border: none;
   background: linear-gradient(135deg, #E78A2E 0%, #d4751e 100%);
   color: #0b1020;
@@ -380,7 +386,7 @@ export default {
   cursor: pointer; letter-spacing: 0.01em;
   box-shadow: 0 4px 32px rgba(231,138,46,0.40);
   transition: transform 0.18s cubic-bezier(0.16,1,0.3,1), box-shadow 0.18s ease;
-  overflow: hidden;
+  overflow: visible;
   animation: cta-glow-once 1.4s ease-out 1.0s both;
 }
 .hero__cta-primary:hover {
@@ -398,6 +404,7 @@ export default {
 .hero__cta-primary::after {
   content: '';
   position: absolute; inset: 0;
+  border-radius: inherit;
   background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.22) 50%, transparent 70%);
   background-size: 250% 100%;
   background-position: -200% center;
@@ -413,14 +420,13 @@ export default {
   .hero__cta-primary::after { animation: none; }
 }
 @media (min-width: 640px) {
-  /* Stretch to fill the copy column width — no max-width cap */
-  .hero__cta-primary { height: 66px; font-size: 16px; gap: 16px; max-width: 480px; }
+  .hero__cta-primary { height: 72px; font-size: 16px; gap: 16px; max-width: 500px; padding: 0 28px 0 0; }
 }
 @media (min-width: 1024px) {
-  .hero__cta-primary { font-size: 17px; height: 68px; max-width: 480px; }
+  .hero__cta-primary { font-size: 17px; height: 74px; max-width: 520px; padding: 0 36px 0 0; }
 }
 @media (max-width: 639px) {
-  .hero__cta-primary { justify-content: flex-start; height: 60px; font-size: 15px; }
+  .hero__cta-primary { justify-content: flex-start; height: 66px; font-size: 15px; }
 }
 
 /* Label — flex spread: text left, arrow pushed right */
@@ -440,35 +446,45 @@ export default {
 }
 .hero__cta-primary:hover .hero__cta-arrow { transform: translateX(5px); }
 
-/* IRIS avatar ring — bigger and more prominent */
+/* IRIS avatar ring — épouse le bord gauche de la capsule CTA */
 .hero__iris-ring {
   flex-shrink: 0;
-  width: 50px; height: 50px;
+  width: 77px; height: 77px;
   border-radius: 50%;
-  border: 2.5px solid rgba(255,255,255,0.40);
-  background: rgba(255,255,255,0.15);
+  border: 2.5px solid rgba(255,255,255,0.55);
+  background: rgba(252, 220, 168, 0.92);
   overflow: hidden;
-  box-shadow: 0 0 14px rgba(231,138,46,0.50);
+  box-shadow:
+    0 0 0 3px rgba(231,138,46,0.32),
+    0 0 16px rgba(231,138,46,0.45);
   transition: box-shadow 0.2s ease;
+  position: relative;
+  z-index: 1;
+  margin-left: -1px;
 }
 .hero__cta-primary:hover .hero__iris-ring {
-  box-shadow: 0 0 26px rgba(231,138,46,0.75);
+  box-shadow:
+    0 0 0 3px rgba(231,138,46,0.55),
+    0 0 28px rgba(231,138,46,0.75);
 }
 .hero__iris-img {
   width: 100%; height: 100%;
   object-fit: cover;
   object-position: center top;
   display: block;
+  image-rendering: auto;
 }
 .hero__iris-fallback {
   width: 100%; height: 100%;
   display: flex; align-items: center; justify-content: center;
   font-weight: 800; font-size: 20px;
-  color: rgba(255,255,255,0.90);
+  color: rgba(60,30,0,0.80);
+}
+@media (min-width: 640px) {
+  .hero__iris-ring { width: 79px; height: 79px; }
 }
 @media (min-width: 1024px) {
-  .hero__iris-ring { width: 54px; height: 54px; }
-  .hero__cta-primary { height: 66px; font-size: 16px; gap: 16px; padding: 0 36px 0 9px; }
+  .hero__iris-ring { width: 88px; height: 88px; }
 }
 
 /* ═══ Trust row ═════════════════════════════════════════════════════════════ */
@@ -606,8 +622,8 @@ export default {
   .hero__benefit  { padding: 6px 9px 6px 6px; }
 
   /* CTA: ensure text stays on one line at 390px */
-  .hero__cta-primary { font-size: 14.5px; gap: 10px; height: 58px; padding-right: 18px; max-width: 100%; }
-  .hero__iris-ring   { width: 44px; height: 44px; }
+  .hero__cta-primary { font-size: 14.5px; gap: 10px; height: 64px; padding-right: 18px; max-width: 100%; }
+  .hero__iris-ring   { width: 70px; height: 70px; }
 
   /* Scroll cue: hidden on mobile (dock handles navigation awareness) */
   .hero__scroll-cue { display: none; }
