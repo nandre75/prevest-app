@@ -32,21 +32,21 @@
         <!-- ── CTA unique IRIS ── (remonté avant les benefits) -->
         <div class="hero__actions hero__anim" style="--ad:290ms">
           <button type="button" class="hero__cta-primary" @click="onCompareClick" aria-label="Commencer à comparer avec IRIS">
-            <div class="hero__iris-ring">
-              <img
-                v-if="irisAvatarUrl"
-                :src="irisAvatarUrl"
-                alt="IRIS"
-                class="hero__iris-img"
-                loading="eager"
-                referrerpolicy="no-referrer"
-              />
-              <div v-else class="hero__iris-fallback" aria-hidden="true">I</div>
-            </div>
-            <span class="hero__cta-content">
-              <span class="hero__cta-text">Commencer à comparer avec IRIS</span>
-              <span class="hero__cta-arrow" aria-hidden="true">→</span>
+            <span class="hero__cta-avatar-slot">
+              <span class="hero__iris-ring">
+                <img
+                  v-if="irisAvatarUrl"
+                  :src="irisAvatarUrl"
+                  alt="IRIS"
+                  class="hero__iris-img"
+                  loading="eager"
+                  referrerpolicy="no-referrer"
+                />
+                <span v-else class="hero__iris-fallback" aria-hidden="true">I</span>
+              </span>
             </span>
+            <span class="hero__cta-text">Commencer à comparer avec IRIS</span>
+            <span class="hero__cta-arrow" aria-hidden="true">→</span>
           </button>
         </div>
 
@@ -356,41 +356,45 @@ export default {
 .hero--light .hero__benefit-desc { color: rgba(11,16,32,0.38); }
 
 /* ═══ CTAs ══════════════════════════════════════════════════════════════════ */
-/* Single IRIS CTA — no secondary */
+/* Single IRIS CTA — 3-column grid: avatar slot | text | arrow */
 .hero__actions {
   display: flex;
   flex-direction: column;
-  align-self: flex-start;
+  align-self: stretch;
   width: 100%;
-  max-width: 100%;
   overflow: visible;
 }
 
 /* ── Desktop: extra breathing room between the main copy groups ──────────── */
-/* These margin-top values add on top of the flex gap (.hero__copy gap: 28px) */
 @media (min-width: 1024px) {
-  .hero__actions  { margin-top: 16px; }  /* sub → CTA  : 28 + 16 = 44px  */
-  .hero__trust    { margin-top: 14px; }  /* CTA → trust: 28 + 14 = 42px  */
-  .hero__benefits { margin-top: 10px; }  /* trust → args: 28 + 10 = 38px */
+  .hero__actions  { margin-top: 16px; }
+  .hero__trust    { margin-top: 14px; }
+  .hero__benefits { margin-top: 10px; }
 }
 
-/* ── Mobile: compensate for avatar overflow (77px ring, 70px button → ~4px bleed each side) */
 @media (max-width: 1023px) {
-  .hero__actions { margin-top:  8px; }   /* sub → CTA  : 18 +  8 = 26px + breathing  */
-  .hero__trust   { margin-top: 10px; }   /* CTA → trust: 18 + 10 = 28px + breathing  */
+  .hero__actions { margin-top:  8px; }
+  .hero__trust   { margin-top: 10px; }
 }
 
-/* Primary CTA — column-aligned; avatar overlaps pill without bleeding left */
 .hero__cta-primary {
   --hero-avatar-size: 77px;
-  --hero-avatar-gap: 14px;
+  --hero-avatar-slot: 77px;
+  --hero-arrow-slot: 48px;
+  --hero-cta-gap: 20px;
+
   position: relative;
-  display: flex;
+  display: grid;
+  grid-template-columns:
+    var(--hero-avatar-slot)
+    minmax(0, 1fr)
+    var(--hero-arrow-slot);
   align-items: center;
-  width: fit-content;
-  max-width: 100%;
+  column-gap: var(--hero-cta-gap);
+  width: 100%;
+  max-width: none;
   min-height: 70px;
-  padding: 10px 22px 10px calc(var(--hero-avatar-size) * 0.58 + var(--hero-avatar-gap));
+  padding: 12px 28px 12px 0;
   border-radius: 999px;
   border: none;
   background: linear-gradient(135deg, #E78A2E 0%, #d4751e 100%);
@@ -415,7 +419,6 @@ export default {
   50%  { box-shadow: 0 4px 64px rgba(231,138,46,0.74); }
   100% { box-shadow: 0 4px 32px rgba(231,138,46,0.40); }
 }
-/* Shimmer sweep once */
 .hero__cta-primary::after {
   content: '';
   position: absolute; inset: 0;
@@ -434,70 +437,21 @@ export default {
   .hero__cta-primary { animation: none; }
   .hero__cta-primary::after { animation: none; }
 }
-@media (min-width: 640px) {
-  .hero__cta-primary {
-    --hero-avatar-size: 79px;
-    min-height: 72px;
-    font-size: 16px;
-    padding-right: 26px;
-  }
-}
-@media (min-width: 1024px) {
-  .hero__cta-primary {
-    --hero-avatar-size: 88px;
-    min-height: 74px;
-    font-size: 17px;
-    max-width: min(500px, 100%);
-    padding-right: 30px;
-  }
-}
 
-/* Inner zone — text + arrow (avatar is absolute) */
-.hero__cta-content {
-  position: relative;
-  z-index: 1;
-  flex: 1;
-  min-width: 0;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+.hero__cta-avatar-slot {
+  display: flex;
   align-items: center;
-  column-gap: 0;
-}
-.hero__cta-text {
-  min-width: 0;
+  justify-content: flex-start;
+  width: var(--hero-avatar-slot);
+  min-width: var(--hero-avatar-slot);
   overflow: visible;
-  white-space: nowrap;
-  line-height: 1.15;
-  padding-right: 10px;
-}
-.hero__cta-arrow {
-  flex: 0 0 auto;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  align-self: stretch;
-  min-width: 40px;
-  padding: 0 4px 0 14px;
-  border-left: 1px solid rgba(11, 16, 32, 0.12);
-  font-size: 20px;
-  line-height: 1;
-  white-space: nowrap;
-  transition: transform 0.18s ease;
-}
-@media (min-width: 1024px) {
-  .hero__cta-primary:hover .hero__cta-arrow { transform: translateX(3px); }
 }
 
-/* IRIS avatar — left edge flush with column; overlaps orange capsule inward */
 .hero__iris-ring {
-  --hero-avatar-size: inherit;
-  position: absolute;
-  left: 0;
-  top: 50%;
+  display: block;
   width: var(--hero-avatar-size);
   height: var(--hero-avatar-size);
-  transform: translateY(-50%);
-  z-index: 2;
+  margin-block: -8px;
   flex-shrink: 0;
   border-radius: 50%;
   border: 2.5px solid rgba(255,255,255,0.55);
@@ -507,6 +461,7 @@ export default {
     0 0 0 3px rgba(231,138,46,0.32),
     0 0 16px rgba(231,138,46,0.45);
   transition: box-shadow 0.2s ease;
+  z-index: 2;
 }
 .hero__cta-primary:hover .hero__iris-ring {
   box-shadow:
@@ -527,34 +482,68 @@ export default {
   color: rgba(60,30,0,0.80);
 }
 
-/* Mobile — 2-line label + isolated arrow column (maquette mobile-cta) */
+.hero__cta-text {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  overflow: visible;
+  white-space: nowrap;
+  line-height: 1.15;
+  text-align: left;
+}
+
+.hero__cta-arrow {
+  display: grid;
+  place-items: center;
+  min-width: var(--hero-arrow-slot);
+  width: var(--hero-arrow-slot);
+  height: 100%;
+  align-self: stretch;
+  border-left: 1px solid rgba(11, 16, 32, 0.12);
+  font-size: 20px;
+  line-height: 1;
+  white-space: nowrap;
+  transition: transform 0.18s ease;
+}
+
+@media (min-width: 1024px) {
+  .hero__cta-primary {
+    --hero-avatar-size: 88px;
+    --hero-avatar-slot: 88px;
+    --hero-arrow-slot: 52px;
+    --hero-cta-gap: 22px;
+    min-height: 74px;
+    font-size: 17px;
+    padding: 14px 28px 14px 0;
+  }
+  .hero__cta-primary:hover .hero__cta-arrow { transform: translateX(3px); }
+}
+
 @media (max-width: 1023px) {
   .hero__cta-primary {
     --hero-avatar-size: 64px;
-    --hero-avatar-gap: 12px;
-    width: 100%;
+    --hero-avatar-slot: 64px;
+    --hero-arrow-slot: 44px;
+    --hero-cta-gap: 14px;
     min-height: auto;
-    font-size: clamp(14px, 3.9vw, 16px);
-    padding: 12px 18px 12px calc(var(--hero-avatar-size) * 0.58 + var(--hero-avatar-gap));
+    padding: 12px 20px 12px 0;
+    font-size: clamp(14px, 4vw, 17px);
   }
   .hero__cta-text {
     white-space: normal;
     text-wrap: balance;
-    line-height: 1.2;
-    padding-right: 8px;
+    line-height: 1.15;
   }
-  .hero__cta-arrow {
-    min-width: 36px;
-    padding-left: 12px;
-    font-size: 18px;
-  }
+  .hero__cta-arrow { font-size: 18px; }
 }
+
 @media (max-width: 390px) {
   .hero__cta-primary {
     --hero-avatar-size: 56px;
-    --hero-avatar-gap: 10px;
-    font-size: clamp(13px, 3.6vw, 14.5px);
-    padding: 11px 16px 11px calc(var(--hero-avatar-size) * 0.58 + var(--hero-avatar-gap));
+    --hero-avatar-slot: 56px;
+    --hero-arrow-slot: 40px;
+    --hero-cta-gap: 12px;
+    padding: 11px 18px 11px 0;
   }
 }
 
@@ -692,8 +681,6 @@ export default {
   .hero__benefits { gap: 6px; flex-wrap: wrap; }
   .hero__benefit  { padding: 6px 9px 6px 6px; }
 
-  /* CTA: column-aligned, arrow column isolated */
-  .hero__cta-content { column-gap: 0; }
 
   /* Scroll cue: hidden on mobile (dock handles navigation awareness) */
   .hero__scroll-cue { display: none; }
