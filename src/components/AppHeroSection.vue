@@ -360,6 +360,9 @@ export default {
 .hero__actions {
   display: flex;
   flex-direction: column;
+  align-self: flex-start;
+  width: 100%;
+  max-width: 100%;
   overflow: visible;
 }
 
@@ -377,15 +380,16 @@ export default {
   .hero__trust   { margin-top: 10px; }   /* CTA → trust: 18 + 10 = 28px + breathing  */
 }
 
-/* Primary CTA — avatar overflows left; text+arrow live in inner content zone */
+/* Primary CTA — hugs content column; avatar overflows left */
 .hero__cta-primary {
   --hero-avatar-size: 77px;
   position: relative;
   display: flex;
   align-items: center;
-  width: 100%;
+  width: fit-content;
+  max-width: 100%;
   min-height: 70px;
-  padding: 10px 24px 10px calc(var(--hero-avatar-size) * 0.72);
+  padding: 10px 22px 10px calc(var(--hero-avatar-size) * 0.70);
   border-radius: 999px;
   border: none;
   background: linear-gradient(135deg, #E78A2E 0%, #d4751e 100%);
@@ -434,8 +438,7 @@ export default {
     --hero-avatar-size: 79px;
     min-height: 72px;
     font-size: 16px;
-    max-width: 500px;
-    padding-right: 28px;
+    padding-right: 26px;
   }
 }
 @media (min-width: 1024px) {
@@ -443,38 +446,41 @@ export default {
     --hero-avatar-size: 88px;
     min-height: 74px;
     font-size: 17px;
-    max-width: 520px;
-    padding-right: 32px;
+    max-width: min(500px, 100%);
+    padding-right: 30px;
   }
 }
 
-/* Inner zone — text + arrow only (avatar is absolute, outside this flow) */
+/* Inner zone — text + arrow (avatar is absolute) */
 .hero__cta-content {
   position: relative;
   z-index: 1;
   flex: 1;
   min-width: 0;
-  width: 100%;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  column-gap: 12px;
+  column-gap: 0;
 }
 .hero__cta-text {
   min-width: 0;
   overflow: visible;
   white-space: nowrap;
   line-height: 1.15;
+  padding-right: 10px;
 }
 .hero__cta-arrow {
   flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  align-self: stretch;
+  min-width: 40px;
+  padding: 0 4px 0 14px;
+  border-left: 1px solid rgba(11, 16, 32, 0.12);
   font-size: 20px;
   line-height: 1;
   white-space: nowrap;
-  margin-right: 4px;
   transition: transform 0.18s ease;
 }
 @media (min-width: 1024px) {
@@ -520,27 +526,32 @@ export default {
   color: rgba(60,30,0,0.80);
 }
 
-/* Narrow mobile — smaller avatar + optional two-line label */
-@media (max-width: 430px) {
+/* Mobile — 2-line label + isolated arrow column (maquette mobile-cta) */
+@media (max-width: 1023px) {
   .hero__cta-primary {
-    --hero-avatar-size: 66px;
-    font-size: clamp(14px, 4vw, 16px);
-    min-height: 64px;
-    padding-right: 24px;
-  }
-}
-@media (max-width: 390px) {
-  .hero__cta-primary {
-    --hero-avatar-size: 58px;
-    font-size: clamp(13px, 3.8vw, 15px);
-    min-height: 62px;
-    padding-top: 12px;
-    padding-bottom: 12px;
+    --hero-avatar-size: 64px;
+    width: 100%;
+    min-height: auto;
+    font-size: clamp(14px, 3.9vw, 16px);
+    padding: 12px 18px 12px calc(var(--hero-avatar-size) * 0.70);
   }
   .hero__cta-text {
     white-space: normal;
     text-wrap: balance;
-    line-height: 1.15;
+    line-height: 1.2;
+    padding-right: 8px;
+  }
+  .hero__cta-arrow {
+    min-width: 36px;
+    padding-left: 12px;
+    font-size: 18px;
+  }
+}
+@media (max-width: 390px) {
+  .hero__cta-primary {
+    --hero-avatar-size: 56px;
+    font-size: clamp(13px, 3.6vw, 14.5px);
+    padding: 11px 16px 11px calc(var(--hero-avatar-size) * 0.68);
   }
 }
 
@@ -678,9 +689,8 @@ export default {
   .hero__benefits { gap: 6px; flex-wrap: wrap; }
   .hero__benefit  { padding: 6px 9px 6px 6px; }
 
-  /* CTA: avatar overflow + full label on small screens */
-  .hero__cta-primary { max-width: 100%; }
-  .hero__cta-content { column-gap: 10px; }
+  /* CTA: column-aligned, arrow column isolated */
+  .hero__cta-content { column-gap: 0; }
 
   /* Scroll cue: hidden on mobile (dock handles navigation awareness) */
   .hero__scroll-cue { display: none; }
