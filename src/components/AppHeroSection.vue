@@ -393,8 +393,8 @@ export default {
   column-gap: var(--hero-cta-gap);
   width: 100%;
   max-width: none;
-  min-height: 70px;
-  padding: 12px 28px 12px 0;
+  min-height: 64px;
+  padding: 8px 28px 8px 0;
   border-radius: 999px;
   border: none;
   background: linear-gradient(135deg, #E78A2E 0%, #d4751e 100%);
@@ -451,7 +451,7 @@ export default {
   display: block;
   width: var(--hero-avatar-size);
   height: var(--hero-avatar-size);
-  margin-block: -8px;
+  margin-block: -10px;
   flex-shrink: 0;
   border-radius: 50%;
   border: 2.5px solid rgba(255,255,255,0.55);
@@ -497,8 +497,8 @@ export default {
   place-items: center;
   min-width: var(--hero-arrow-slot);
   width: var(--hero-arrow-slot);
-  height: 100%;
-  align-self: stretch;
+  height: auto;
+  align-self: center;
   border-left: 1px solid rgba(11, 16, 32, 0.12);
   font-size: 20px;
   line-height: 1;
@@ -512,9 +512,11 @@ export default {
     --hero-avatar-slot: 88px;
     --hero-arrow-slot: 52px;
     --hero-cta-gap: 22px;
-    min-height: 74px;
+    width: 100%;
+    max-width: 88%;
+    min-height: 68px;
     font-size: 17px;
-    padding: 14px 28px 14px 0;
+    padding: 8px 28px 8px 0;
   }
   .hero__cta-primary:hover .hero__cta-arrow { transform: translateX(3px); }
 }
@@ -525,10 +527,12 @@ export default {
     --hero-avatar-slot: 64px;
     --hero-arrow-slot: 44px;
     --hero-cta-gap: 14px;
-    min-height: auto;
-    padding: 12px 20px 12px 0;
+    max-width: none;
+    min-height: 54px;
+    padding: 8px 20px 8px 0;
     font-size: clamp(14px, 4vw, 17px);
   }
+  .hero__iris-ring { margin-block: -7px; }
   .hero__cta-text {
     white-space: normal;
     text-wrap: balance;
@@ -543,8 +547,10 @@ export default {
     --hero-avatar-slot: 56px;
     --hero-arrow-slot: 40px;
     --hero-cta-gap: 12px;
-    padding: 11px 18px 11px 0;
+    min-height: 48px;
+    padding: 8px 18px 8px 0;
   }
+  .hero__iris-ring { margin-block: -5px; }
 }
 
 /* ═══ Trust row ═════════════════════════════════════════════════════════════ */
