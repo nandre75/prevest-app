@@ -29,6 +29,7 @@ function read(relPath) {
 }
 
 const mobileInstall = read('src/components/AppMobileInstallSection.vue')
+const hero = read('src/components/AppHeroSection.vue')
 const compareWays = read('src/components/AppCompareWaysSection.vue')
 const mofo = read('src/components/AppMofoSection.vue')
 const wwElement = read('src/wwElement.vue')
@@ -41,16 +42,32 @@ const LA_FRANCAISE_URL = 'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-9
 assert(!mobileInstall.includes(OLD_QR_CDN), 'QR. ancienne URL CDN absente du rendu')
 assert(mobileInstall.includes("import prevestQrCodeSvg from '../assets/prevest-qr-code.svg'"), 'QR. import SVG local')
 assert(existsSync(join(root, 'src/assets/prevest-qr-code.svg')), 'QR. asset SVG présent')
-assert(mobileInstall.includes(':src="prevestQrCodeSvg"'), 'QR. seule source effective = SVG local')
+assert(mobileInstall.includes('prevestQrCodeSvg'), 'QR. seule source effective = SVG local')
+assert(mobileInstall.includes('qrMaskStyle'), 'QR. masque CSS piloté par import local')
+assert(mobileInstall.includes('mi__qr-graphic'), 'QR. rendu via masque thématique')
+assert(!mobileInstall.includes(':src="prevestQrCodeSvg"'), 'QR. plus de <img> statique noir')
 assert(!mobileInstall.includes('resolvedQrUrl'), 'QR. plus de computed fallback mobileQrCodeUrl')
 assert(!mobileInstall.includes('props.mobileQrCodeUrl?.trim()'), 'QR. mobileQrCodeUrl n’influence pas le rendu')
 assert(mobileInstall.includes('mobileQrCodeUrl:'), 'QR. prop WeWeb conservée (rétrocompat)')
-assert(mobileInstall.includes('QR code ouvrant https://www.prevest.ai/'), 'QR. alt accessible')
-assert(mobileInstall.includes('object-fit: contain') || mobileInstall.includes('mi__qr-img'), 'QR. styles sans déformation')
+assert(mobileInstall.includes('role="img"') && mobileInstall.includes('aria-label="QR code ouvrant https://www.prevest.ai/"'), 'QR. accessibilité role=img')
+assert(mobileInstall.includes('--qr-color: #ffffff') && mobileInstall.includes('mi--dark'), 'QR. blanc en dark mode')
+assert(mobileInstall.includes('--qr-color: #000000') && mobileInstall.includes('mi--light'), 'QR. noir en light mode')
+assert(mobileInstall.includes('aspect-ratio: 1 / 1'), 'QR. ratio carré conservé')
+assert(mobileInstall.includes('opacity: 1'), 'QR. pleine opacité')
+assert(mobileInstall.includes('isDark ? \'mi--dark\' : \'mi--light\''), 'QR. thème existant isDark')
 assert(openPcsLib.includes(PCS_QR_DESTINATION_URL), 'QR. destination documentée')
 
 const qrSvg = read('src/assets/prevest-qr-code.svg')
-assert(qrSvg.includes('<svg') && qrSvg.includes('viewBox'), '3. SVG valide ratio carré')
+assert(qrSvg.includes('<svg') && qrSvg.includes('viewBox'), 'QR. SVG valide ratio carré')
+
+// ── Hero CTA mobile arrow containment ───────────────────────────────────────
+assert(hero.includes('hero__cta-text') && hero.includes('hero__cta-arrow'), 'CTA. texte et flèche séparés')
+assert(hero.includes('grid-template-columns: minmax(0, 1fr) auto'), 'CTA. grille texte + flèche non rétractable')
+assert(hero.includes('overflow: hidden') && hero.includes('.hero__cta-primary'), 'CTA. overflow hidden sur bouton')
+assert(hero.includes('padding-right: 22px'), 'CTA. padding droit suffisant mobile')
+assert(!hero.includes('translateX(5px)'), 'CTA. plus de translateX agressif')
+assert(hero.includes('onCompareClick'), 'CTA. handler IRIS inchangé')
+assert(hero.includes('compare-click'), 'CTA. emit compare-click inchangé')
 
 // ── PCS (7–13) ──────────────────────────────────────────────────────────────
 assert(compareWays.includes("emit('explore-click'"), '7. carte émet explore-click')

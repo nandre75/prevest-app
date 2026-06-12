@@ -121,12 +121,13 @@
             <span class="mi__br mi__br--bl" aria-hidden="true"/>
             <span class="mi__br mi__br--br" aria-hidden="true"/>
 
-            <!-- QR image or SVG placeholder -->
+            <!-- QR graphic — local SVG as CSS mask, theme-driven fill -->
             <div class="mi__qr-img-wrap">
-              <img
-                :src="prevestQrCodeSvg"
-                alt="QR code ouvrant https://www.prevest.ai/"
-                class="mi__qr-img"
+              <div
+                class="mi__qr-graphic"
+                :style="qrMaskStyle"
+                role="img"
+                aria-label="QR code ouvrant https://www.prevest.ai/"
               />
             </div>
 
@@ -218,7 +219,12 @@ export default {
 
     const resolvedScreenUrl = computed(() => props.mobileAppScreenshotUrl || DEFAULT_SCREEN_URL)
 
-    return { STEPS, visible, sectionRef, phoneRef, prevestQrCodeSvg, resolvedScreenUrl }
+    const qrMaskStyle = computed(() => ({
+      maskImage: `url(${prevestQrCodeSvg})`,
+      WebkitMaskImage: `url(${prevestQrCodeSvg})`,
+    }))
+
+    return { STEPS, visible, sectionRef, phoneRef, prevestQrCodeSvg, qrMaskStyle, resolvedScreenUrl }
   },
 }
 </script>
@@ -521,8 +527,20 @@ export default {
 .mi__qr-img-wrap {
   border-radius: 8px; overflow: hidden; line-height: 0;
 }
-.mi__qr-img { width: 170px; height: 170px; object-fit: contain; display: block; }
-.mi__qr-svg { display: block; border-radius: 6px; }
+.mi--dark  { --qr-color: #ffffff; }
+.mi--light { --qr-color: #000000; }
+.mi__qr-graphic {
+  width: 170px;
+  aspect-ratio: 1 / 1;
+  opacity: 1;
+  background-color: var(--qr-color);
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+}
 
 /* QR footer */
 .mi__qr-foot {

@@ -43,7 +43,10 @@
               />
               <div v-else class="hero__iris-fallback" aria-hidden="true">I</div>
             </div>
-            <span class="hero__cta-label">Commencer à comparer avec IRIS <span class="hero__cta-arrow" aria-hidden="true">→</span></span>
+            <span class="hero__cta-label">
+              <span class="hero__cta-text">Commencer à comparer avec IRIS</span>
+              <span class="hero__cta-arrow" aria-hidden="true">→</span>
+            </span>
           </button>
         </div>
 
@@ -386,7 +389,7 @@ export default {
   cursor: pointer; letter-spacing: 0.01em;
   box-shadow: 0 4px 32px rgba(231,138,46,0.40);
   transition: transform 0.18s cubic-bezier(0.16,1,0.3,1), box-shadow 0.18s ease;
-  overflow: visible;
+  overflow: hidden;
   animation: cta-glow-once 1.4s ease-out 1.0s both;
 }
 .hero__cta-primary:hover {
@@ -429,22 +432,33 @@ export default {
   .hero__cta-primary { justify-content: flex-start; height: 66px; font-size: 15px; }
 }
 
-/* Label — flex spread: text left, arrow pushed right */
+/* Label — grid: text flexes, arrow stays in dedicated non-shrinking column */
 .hero__cta-label {
   flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  white-space: nowrap;
   min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 12px;
+}
+.hero__cta-text {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
 }
 .hero__cta-arrow {
-  display: inline-block;
-  font-size: 20px; line-height: 1; flex-shrink: 0;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  line-height: 1;
+  margin-right: 4px;
   transition: transform 0.18s ease;
 }
-.hero__cta-primary:hover .hero__cta-arrow { transform: translateX(5px); }
+@media (min-width: 1024px) {
+  .hero__cta-primary:hover .hero__cta-arrow { transform: translateX(3px); }
+}
 
 /* IRIS avatar ring — épouse le bord gauche de la capsule CTA */
 .hero__iris-ring {
@@ -621,8 +635,10 @@ export default {
   .hero__benefits { gap: 6px; flex-wrap: wrap; }
   .hero__benefit  { padding: 6px 9px 6px 6px; }
 
-  /* CTA: ensure text stays on one line at 390px */
-  .hero__cta-primary { font-size: 14.5px; gap: 10px; height: 64px; padding-right: 18px; max-width: 100%; }
+  /* CTA: grid label keeps arrow inside capsule on narrow widths */
+  .hero__cta-primary { font-size: 14.5px; gap: 10px; height: 64px; padding-right: 22px; max-width: 100%; }
+  .hero__cta-label   { column-gap: 10px; }
+  .hero__cta-arrow   { margin-right: 2px; }
   .hero__iris-ring   { width: 70px; height: 70px; }
 
   /* Scroll cue: hidden on mobile (dock handles navigation awareness) */
