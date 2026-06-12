@@ -380,16 +380,17 @@ export default {
   .hero__trust   { margin-top: 10px; }   /* CTA → trust: 18 + 10 = 28px + breathing  */
 }
 
-/* Primary CTA — hugs content column; avatar overflows left */
+/* Primary CTA — column-aligned; avatar overlaps pill without bleeding left */
 .hero__cta-primary {
   --hero-avatar-size: 77px;
+  --hero-avatar-gap: 14px;
   position: relative;
   display: flex;
   align-items: center;
   width: fit-content;
   max-width: 100%;
   min-height: 70px;
-  padding: 10px 22px 10px calc(var(--hero-avatar-size) * 0.70);
+  padding: 10px 22px 10px calc(var(--hero-avatar-size) * 0.58 + var(--hero-avatar-gap));
   border-radius: 999px;
   border: none;
   background: linear-gradient(135deg, #E78A2E 0%, #d4751e 100%);
@@ -487,7 +488,7 @@ export default {
   .hero__cta-primary:hover .hero__cta-arrow { transform: translateX(3px); }
 }
 
-/* IRIS avatar — overlaps left edge of orange capsule (~25–35 % visible outside) */
+/* IRIS avatar — left edge flush with column; overlaps orange capsule inward */
 .hero__iris-ring {
   --hero-avatar-size: inherit;
   position: absolute;
@@ -495,7 +496,7 @@ export default {
   top: 50%;
   width: var(--hero-avatar-size);
   height: var(--hero-avatar-size);
-  transform: translate(-28%, -50%);
+  transform: translateY(-50%);
   z-index: 2;
   flex-shrink: 0;
   border-radius: 50%;
@@ -530,10 +531,11 @@ export default {
 @media (max-width: 1023px) {
   .hero__cta-primary {
     --hero-avatar-size: 64px;
+    --hero-avatar-gap: 12px;
     width: 100%;
     min-height: auto;
     font-size: clamp(14px, 3.9vw, 16px);
-    padding: 12px 18px 12px calc(var(--hero-avatar-size) * 0.70);
+    padding: 12px 18px 12px calc(var(--hero-avatar-size) * 0.58 + var(--hero-avatar-gap));
   }
   .hero__cta-text {
     white-space: normal;
@@ -550,8 +552,9 @@ export default {
 @media (max-width: 390px) {
   .hero__cta-primary {
     --hero-avatar-size: 56px;
+    --hero-avatar-gap: 10px;
     font-size: clamp(13px, 3.6vw, 14.5px);
-    padding: 11px 16px 11px calc(var(--hero-avatar-size) * 0.68);
+    padding: 11px 16px 11px calc(var(--hero-avatar-size) * 0.58 + var(--hero-avatar-gap));
   }
 }
 
