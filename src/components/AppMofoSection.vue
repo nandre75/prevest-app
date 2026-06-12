@@ -179,6 +179,7 @@
                   v-if="badge.logoUrl"
                   :src="badge.logoUrl"
                   :alt="badge.label"
+                  :title="badge.label"
                   class="mofo__badge-img"
                   loading="lazy"
                 />
@@ -192,8 +193,6 @@
                   <span class="mofo__badge-initials">{{ badge.initials }}</span>
                 </div>
               </div>
-              <!-- Brand label -->
-              <span class="mofo__badge-name">{{ badge.labelShort || badge.label }}</span>
             </div>
           </div><!-- /badges -->
 
@@ -711,8 +710,8 @@ export default {
 /* ── Badge visual card ── */
 .mofo__badge-card {
   width: 100%;
-  display: flex; flex-direction: column; align-items: center;
-  gap: 4px; padding: 6px 5px 5px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 0; padding: 8px 6px;
   border-radius: 11px; border: 1px solid transparent;
   box-sizing: border-box;
   overflow: hidden;
@@ -760,14 +759,15 @@ export default {
   opacity: 1;
 }
 
-/* ── Logo area — agrandi pour une meilleure lisibilité ── */
+/* ── Logo area — labels retirés, logos agrandis et centrés ── */
 .mofo__badge-logo-area {
-  width: 100%; height: 34px;
+  width: 100%; height: 48px;
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
 }
 .mofo__badge-img {
-  max-width: 84%; max-height: 30px;
+  width: auto; height: auto;
+  max-width: 90%; max-height: 42px;
   object-fit: contain; display: block;
 }
 
@@ -786,18 +786,6 @@ export default {
   text-align: center;
   white-space: nowrap;
 }
-
-/* ── Brand name label ── */
-.mofo__badge-name {
-  font-size: 8.5px; font-weight: 700;
-  letter-spacing: 0.03em; text-align: center;
-  line-height: 1.2; white-space: pre-line;
-  max-width: 100%; overflow: hidden;
-}
-.mofo--dark  .mofo__badge .mofo__badge-name         { color: rgba(148,163,184,0.70); }
-.mofo--dark  .mofo__badge--active .mofo__badge-name { color: rgba(248,250,252,0.96); }
-.mofo--light .mofo__badge .mofo__badge-name         { color: rgba(71,85,105,0.70); }
-.mofo--light .mofo__badge--active .mofo__badge-name { color: rgba(11,16,32,0.93); }
 
 @media (prefers-reduced-motion: reduce) {
   .mofo__badge,

@@ -78,6 +78,7 @@ import AppMofoSection        from './components/AppMofoSection.vue'
 import AppPopularComparisonsSection from './components/AppPopularComparisonsSection.vue'
 import AppTestimonialsSection      from './components/AppTestimonialsSection.vue'
 import AppMobileInstallSection     from './components/AppMobileInstallSection.vue'
+import { openPcsPlacements } from './lib/openPcsPlacements.js'
 
 const DEFAULT_ASSETS = {
   heroDark:   'https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/Illustration_HERO_Blanc_OrangeOK.png?_wwcv=1779460464091',
@@ -202,7 +203,13 @@ export default {
 
     // ── Events ────────────────────────────────────────────────────────────
     function onCompareClick()       { emit('trigger-event', { name: 'compare-click',       event: {} }) }
-    function onExploreClick()       { emit('trigger-event', { name: 'explore-click',       event: {} }) }
+    function onExploreClick(payload) {
+      openPcsPlacements({
+        source: payload?.source ?? 'explore_cta',
+        tab: 'placements',
+      })
+      emit('trigger-event', { name: 'explore-click', event: payload ?? {} })
+    }
     function onHeroMounted()        { emit('trigger-event', { name: 'hero-mounted',        event: {} }) }
     function onStoryCardClick(e)    { emit('trigger-event', { name: 'story-card-click',    event: e   }) }
     function onConceptStepClick(e)  { emit('trigger-event', { name: 'concept-step-click',  event: e   }) }

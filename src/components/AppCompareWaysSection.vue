@@ -246,9 +246,6 @@ export default {
 
     function handleExploreClick() {
       emit('explore-click', { source: 'compare_ways_free_search', target: 'pcs_placements' })
-      if (props.exploreUrl) {
-        try { _getWin().location.href = props.exploreUrl } catch { /* noop */ }
-      }
     }
 
     return {

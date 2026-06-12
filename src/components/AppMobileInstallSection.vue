@@ -124,8 +124,8 @@
             <!-- QR image or SVG placeholder -->
             <div class="mi__qr-img-wrap">
               <img
-                :src="resolvedQrUrl"
-                alt="QR code pour ouvrir PREVEST sur mobile"
+                :src="prevestQrCodeSvg"
+                alt="QR code ouvrant https://www.prevest.ai/"
                 class="mi__qr-img"
               />
             </div>
@@ -150,6 +150,7 @@
 
 <script>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
+import prevestQrCodeSvg from '../assets/prevest-qr-code.svg'
 
 function _getWin() {
   try { return (typeof wwLib !== 'undefined' ? wwLib?.getFrontWindow?.() : null) ?? window } catch { return window }
@@ -158,7 +159,6 @@ function _prefersReducedMotion() {
   try { return _getWin().matchMedia('(prefers-reduced-motion: reduce)').matches } catch { return false }
 }
 
-const DEFAULT_QR_URL     = "https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/Capture_d%E2%80%99e%CC%81cran_2025-12-15_a%CC%80_13.43.49.png?_wwcv=1765802911101"
 const DEFAULT_SCREEN_URL = "https://cdn.weweb.io/designs/12864de0-3f31-4924-bacd-94c6a2f76080/sections/screen-mobile-app.png?_wwcv=1780995431595"
 
 const STEPS = [
@@ -216,10 +216,9 @@ export default {
 
     onUnmounted(() => { try { _io?.disconnect() } catch { /* noop */ } })
 
-    const resolvedQrUrl     = computed(() => props.mobileQrCodeUrl        || DEFAULT_QR_URL)
     const resolvedScreenUrl = computed(() => props.mobileAppScreenshotUrl || DEFAULT_SCREEN_URL)
 
-    return { STEPS, visible, sectionRef, phoneRef, resolvedQrUrl, resolvedScreenUrl }
+    return { STEPS, visible, sectionRef, phoneRef, prevestQrCodeSvg, resolvedScreenUrl }
   },
 }
 </script>

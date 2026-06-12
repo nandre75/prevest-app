@@ -4,7 +4,8 @@
   "scripts": {
     "build": "weweb build",
     "build:local": "weweb build -- name=prevest-app type=element",
-    "serve": "weweb serve"
+    "serve": "weweb serve",
+    "test": "node scripts/test-prevest-app.mjs"
   },
   "devDependencies": {
     "@weweb/cli": "latest"
