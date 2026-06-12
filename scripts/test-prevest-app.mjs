@@ -60,14 +60,20 @@ assert(openPcsLib.includes(PCS_QR_DESTINATION_URL), 'QR. destination documentée
 const qrSvg = read('src/assets/prevest-qr-code.svg')
 assert(qrSvg.includes('<svg') && qrSvg.includes('viewBox'), 'QR. SVG valide ratio carré')
 
-// ── Hero CTA mobile arrow containment ───────────────────────────────────────
-assert(hero.includes('hero__cta-text') && hero.includes('hero__cta-arrow'), 'CTA. texte et flèche séparés')
-assert(hero.includes('grid-template-columns: minmax(0, 1fr) auto'), 'CTA. grille texte + flèche non rétractable')
-assert(hero.includes('overflow: hidden') && hero.includes('.hero__cta-primary'), 'CTA. overflow hidden sur bouton')
-assert(hero.includes('padding-right: 22px'), 'CTA. padding droit suffisant mobile')
-assert(!hero.includes('translateX(5px)'), 'CTA. plus de translateX agressif')
+// ── Hero CTA — avatar overflow + full text + arrow containment ───────────────
+assert(hero.includes('hero__cta-content') && hero.includes('hero__cta-text') && hero.includes('hero__cta-arrow'), 'CTA. zone interne texte + flèche')
+assert(hero.includes('overflow: visible') && hero.includes('.hero__cta-primary'), 'CTA. wrapper autorise overflow visible')
+assert(hero.includes('.hero__actions') && hero.match(/\.hero__actions[\s\S]*?overflow:\s*visible/), 'CTA. actions wrapper overflow visible')
+assert(hero.includes('position: absolute') && hero.includes('.hero__iris-ring') && hero.includes('translate(-28%, -50%)'), 'CTA. avatar déborde à gauche')
+assert(hero.includes('Commencer à comparer avec IRIS'), 'CTA. texte complet dans le template')
+assert(!hero.includes('text-overflow'), 'CTA. pas de ellipsis')
+assert(hero.includes('.hero__cta-text') && hero.includes('overflow: visible'), 'CTA. texte sans troncature')
+assert(hero.includes('grid-template-columns: minmax(0, 1fr) auto'), 'CTA. flèche en colonne auto')
+assert(hero.includes('padding-right: 24px') || hero.includes('padding: 10px 24px'), 'CTA. padding droit suffisant')
+assert(hero.includes('text-wrap: balance') || hero.includes('clamp('), 'CTA. mobile typo réduite ou retour ligne')
 assert(hero.includes('onCompareClick'), 'CTA. handler IRIS inchangé')
 assert(hero.includes('compare-click'), 'CTA. emit compare-click inchangé')
+assert(!hero.includes('translateX(5px)'), 'CTA. pas de translateX agressif')
 
 // ── PCS (7–13) ──────────────────────────────────────────────────────────────
 assert(compareWays.includes("emit('explore-click'"), '7. carte émet explore-click')

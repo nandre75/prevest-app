@@ -43,7 +43,7 @@
               />
               <div v-else class="hero__iris-fallback" aria-hidden="true">I</div>
             </div>
-            <span class="hero__cta-label">
+            <span class="hero__cta-content">
               <span class="hero__cta-text">Commencer à comparer avec IRIS</span>
               <span class="hero__cta-arrow" aria-hidden="true">→</span>
             </span>
@@ -360,6 +360,7 @@ export default {
 .hero__actions {
   display: flex;
   flex-direction: column;
+  overflow: visible;
 }
 
 /* ── Desktop: extra breathing room between the main copy groups ──────────── */
@@ -376,20 +377,26 @@ export default {
   .hero__trust   { margin-top: 10px; }   /* CTA → trust: 18 + 10 = 28px + breathing  */
 }
 
-/* Primary CTA */
+/* Primary CTA — avatar overflows left; text+arrow live in inner content zone */
 .hero__cta-primary {
+  --hero-avatar-size: 77px;
   position: relative;
-  display: flex; align-items: center; gap: 14px;
+  display: flex;
+  align-items: center;
   width: 100%;
-  height: 70px; padding: 0 22px 0 0;
-  border-radius: 999px; border: none;
+  min-height: 70px;
+  padding: 10px 24px 10px calc(var(--hero-avatar-size) * 0.72);
+  border-radius: 999px;
+  border: none;
   background: linear-gradient(135deg, #E78A2E 0%, #d4751e 100%);
   color: #0b1020;
-  font-size: 15.5px; font-weight: 700;
-  cursor: pointer; letter-spacing: 0.01em;
+  font-size: 15.5px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.01em;
   box-shadow: 0 4px 32px rgba(231,138,46,0.40);
   transition: transform 0.18s cubic-bezier(0.16,1,0.3,1), box-shadow 0.18s ease;
-  overflow: hidden;
+  overflow: visible;
   animation: cta-glow-once 1.4s ease-out 1.0s both;
 }
 .hero__cta-primary:hover {
@@ -423,19 +430,31 @@ export default {
   .hero__cta-primary::after { animation: none; }
 }
 @media (min-width: 640px) {
-  .hero__cta-primary { height: 72px; font-size: 16px; gap: 16px; max-width: 500px; padding: 0 28px 0 0; }
+  .hero__cta-primary {
+    --hero-avatar-size: 79px;
+    min-height: 72px;
+    font-size: 16px;
+    max-width: 500px;
+    padding-right: 28px;
+  }
 }
 @media (min-width: 1024px) {
-  .hero__cta-primary { font-size: 17px; height: 74px; max-width: 520px; padding: 0 36px 0 0; }
-}
-@media (max-width: 639px) {
-  .hero__cta-primary { justify-content: flex-start; height: 66px; font-size: 15px; }
+  .hero__cta-primary {
+    --hero-avatar-size: 88px;
+    min-height: 74px;
+    font-size: 17px;
+    max-width: 520px;
+    padding-right: 32px;
+  }
 }
 
-/* Label — grid: text flexes, arrow stays in dedicated non-shrinking column */
-.hero__cta-label {
+/* Inner zone — text + arrow only (avatar is absolute, outside this flow) */
+.hero__cta-content {
+  position: relative;
+  z-index: 1;
   flex: 1;
   min-width: 0;
+  width: 100%;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
@@ -443,8 +462,9 @@ export default {
 }
 .hero__cta-text {
   min-width: 0;
-  overflow: hidden;
+  overflow: visible;
   white-space: nowrap;
+  line-height: 1.15;
 }
 .hero__cta-arrow {
   flex: 0 0 auto;
@@ -453,6 +473,7 @@ export default {
   justify-content: center;
   font-size: 20px;
   line-height: 1;
+  white-space: nowrap;
   margin-right: 4px;
   transition: transform 0.18s ease;
 }
@@ -460,10 +481,17 @@ export default {
   .hero__cta-primary:hover .hero__cta-arrow { transform: translateX(3px); }
 }
 
-/* IRIS avatar ring — épouse le bord gauche de la capsule CTA */
+/* IRIS avatar — overlaps left edge of orange capsule (~25–35 % visible outside) */
 .hero__iris-ring {
+  --hero-avatar-size: inherit;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: var(--hero-avatar-size);
+  height: var(--hero-avatar-size);
+  transform: translate(-28%, -50%);
+  z-index: 2;
   flex-shrink: 0;
-  width: 77px; height: 77px;
   border-radius: 50%;
   border: 2.5px solid rgba(255,255,255,0.55);
   background: rgba(252, 220, 168, 0.92);
@@ -472,9 +500,6 @@ export default {
     0 0 0 3px rgba(231,138,46,0.32),
     0 0 16px rgba(231,138,46,0.45);
   transition: box-shadow 0.2s ease;
-  position: relative;
-  z-index: 1;
-  margin-left: -1px;
 }
 .hero__cta-primary:hover .hero__iris-ring {
   box-shadow:
@@ -494,11 +519,29 @@ export default {
   font-weight: 800; font-size: 20px;
   color: rgba(60,30,0,0.80);
 }
-@media (min-width: 640px) {
-  .hero__iris-ring { width: 79px; height: 79px; }
+
+/* Narrow mobile — smaller avatar + optional two-line label */
+@media (max-width: 430px) {
+  .hero__cta-primary {
+    --hero-avatar-size: 66px;
+    font-size: clamp(14px, 4vw, 16px);
+    min-height: 64px;
+    padding-right: 24px;
+  }
 }
-@media (min-width: 1024px) {
-  .hero__iris-ring { width: 88px; height: 88px; }
+@media (max-width: 390px) {
+  .hero__cta-primary {
+    --hero-avatar-size: 58px;
+    font-size: clamp(13px, 3.8vw, 15px);
+    min-height: 62px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  .hero__cta-text {
+    white-space: normal;
+    text-wrap: balance;
+    line-height: 1.15;
+  }
 }
 
 /* ═══ Trust row ═════════════════════════════════════════════════════════════ */
@@ -635,11 +678,9 @@ export default {
   .hero__benefits { gap: 6px; flex-wrap: wrap; }
   .hero__benefit  { padding: 6px 9px 6px 6px; }
 
-  /* CTA: grid label keeps arrow inside capsule on narrow widths */
-  .hero__cta-primary { font-size: 14.5px; gap: 10px; height: 64px; padding-right: 22px; max-width: 100%; }
-  .hero__cta-label   { column-gap: 10px; }
-  .hero__cta-arrow   { margin-right: 2px; }
-  .hero__iris-ring   { width: 70px; height: 70px; }
+  /* CTA: avatar overflow + full label on small screens */
+  .hero__cta-primary { max-width: 100%; }
+  .hero__cta-content { column-gap: 10px; }
 
   /* Scroll cue: hidden on mobile (dock handles navigation awareness) */
   .hero__scroll-cue { display: none; }
