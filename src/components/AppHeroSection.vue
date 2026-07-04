@@ -21,7 +21,7 @@
         <!-- H1 -->
         <h1 class="hero__h1 hero__anim" style="--ad:90ms">
           Comparez. Simulez.<br>
-          <span class="hero__h1-orange">Investissez mieux.</span>
+          <span class="hero__h1-orange">Épargnez mieux.</span>
         </h1>
 
         <!-- Subtext -->
