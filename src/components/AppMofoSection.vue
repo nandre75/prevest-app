@@ -21,7 +21,7 @@
         >
           <span class="mofo__pill mofo__pill--orange">
             <span class="mofo__pill-dot" aria-hidden="true" />
-            MOFO
+            FOMO
           </span>
           <span class="mofo__pill mofo__pill--muted">
             <svg viewBox="0 0 16 16" fill="none" width="13" height="13" aria-hidden="true">
